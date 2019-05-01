@@ -1,12 +1,12 @@
 <?php
 // Thiết lập các biến kết nối với CSDL
 $host = "localhost";
-$db_name = "php_beginner_crud_level_1";
+$db_name = "manages";
 $username = "root";
 $password = "";
 
 try {
-    $con = new PDO("mysql:host=127.0.0.1;dbname=manages_teacher", "root", "");
+    $con = new PDO("mysql:host=127.0.0.1;dbname=".$db_name, $username, $password);
 }
 
 // Hiển thị lỗi nếu quá trình kết nối xảy ra vấn đề

@@ -1,3 +1,5 @@
+
+<?php return header("Location: pages/dashboard/index.php"); ?>
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -41,7 +43,7 @@
         //Hiển thị thông báo
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
-        // nếu nó được điều hướng từ “delete.php”
+        // nếu nó được điều hướng từ “xoa.php”
         if($action=='deleted'){
             echo "<div class='alert alert-success'>Sản phẩm đã được xoá.</div>";
         }
@@ -58,7 +60,7 @@
         // số lượng bản ghi trả về
         $num = $stmt->rowCount();
         // liên kết gọi đến trang Tạo sản phẩm mới
-        echo "<a href='create.php' class='btn btn-primary m-b-1em'>Tạo sản phẩm mới</a>";
+        echo "<a href='them.php' class='btn btn-primary m-b-1em'>Tạo sản phẩm mới</a>";
 
         //kiểm tra nếu số bản ghi dữ liệu lấy được > 0
         if($num>0){
@@ -119,7 +121,7 @@
             $total_rows = $row['total_rows'];
 
             // điều hướng phân trang
-            $page_url="index.php?";
+            $page_url="danhsach.php?";
             include_once "paging.php";
 
         }
@@ -145,7 +147,7 @@
         var answer = confirm('Bạn có chắc muốn xóa sản phẩm này không?');
         if (answer){
             // nếu người dùng kích OK,
-            // truyền id tới delete.php và thực thi truy vấn delete
+            // truyền id tới xoa.php và thực thi truy vấn delete
             window.location = 'delete.php?id=' + id;
         }
     }

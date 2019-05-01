@@ -28,7 +28,7 @@
     // đọc dữ liệu của bản ghi hiện tại
     try {
         // chuẩn bị truy vấn SELECT
-        $query = "SELECT id, name, description, price FROM products WHERE id = ? LIMIT 0,1";
+        $query = "SELECT id, name, description, price, image FROM products WHERE id = ? LIMIT 0,1";
         $stmt = $con->prepare( $query );
 
         // truyền giá trị cho tham số ‘?’ trong câu truy vấn bên trên
@@ -44,6 +44,8 @@
         $name = $row['name'];
         $description = $row['description'];
         $price = $row['price'];
+        $image = htmlspecialchars($row['image'], ENT_QUOTES);
+
     }
 
 // hiển thị lỗi
@@ -67,11 +69,18 @@
             <td><?php echo htmlspecialchars($price, ENT_QUOTES);  ?></td>
         </tr>
         <tr>
+            <td>Hình ảnh</td>
+            <td>
+                <?php echo $image ? "<img src='uploads/{$image}' style='width:300px;' />" : "Không tìm thấy ảnh.";  ?>
+            </td>
+        </tr>
+        <tr>
             <td></td>
             <td>
                 <a href='index.php' class='btn btn-danger'>Quay lại danh sách sản phẩm</a>
             </td>
         </tr>
+
     </table>
 
 </div> <!-- end .container -->

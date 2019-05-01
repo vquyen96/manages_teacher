@@ -114,7 +114,7 @@
             <tr>
                 <td></td>
                 <td>
-                    <input type='submit' value=Cập nhật' class='btn btn-primary' />
+                    <input type='submit' value='Cập nhật' class='btn btn-primary' />
                     <a href='index.php' class='btn btn-danger'>Quay lại danh sách sản phẩm</a>
                 </td>
             </tr>

@@ -13,7 +13,7 @@ try {
     $stmt->bindParam(1, $id);
 
     if($stmt->execute()){
-        header('Location: index.php?action=deleted');
+        header('Location: danhsach.php?action=deleted');
     }else{
         die('Không thể xóa bản ghi.');
     }
