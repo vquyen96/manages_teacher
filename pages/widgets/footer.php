@@ -26,7 +26,7 @@
 <!-- AdminLTE App -->
 <script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="../../dist/js/pages/dashboard.js"></script>
+<!--<script src="../../dist/js/pages/dashboard.js"></script>-->
 <!-- AdminLTE for demo purposes -->
 <script src="../../dist/js/demo.js"></script>
 
@@ -66,8 +66,8 @@ $file = $uriSegments[4];
                 case 'danhsach.php':
                     echo '<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>';
                     echo '<script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
-                    echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
-                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
+//                    echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
+//                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
                     echo '<script src="../../dist/js/pages/giao_vien/index.js"></script>';
                     break;
             }

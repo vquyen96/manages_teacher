@@ -81,8 +81,8 @@ $num = $stmt->rowCount();
                                         <td><?php echo $row['ma_sv'] ?></td>
                                         <td><?php echo $row['tong_thoi_gian'] ?></td>
                                         <td>
-                                            <a href="sua.php<?php echo '?id='.$id ?>" class="btn btn-primary">Sửa</a>
-                                            <a href="xoa.php<?php echo '?id='.$id ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
+                                            <a href="sua.php<?php echo '?id='.$row['id'] ?>" class="btn btn-primary">Sửa</a>
+                                            <a href="xoa.php<?php echo '?id='.$row['id'] ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
                                         </td>
                                     </tr>
                                 <?php }?>
@@ -91,7 +91,7 @@ $num = $stmt->rowCount();
 
                             // PHÂN TRANG
                             // đếm tổng số bản ghi
-                            $query = "SELECT COUNT(*) as total_rows FROM products";
+                            $query = "SELECT COUNT(*) as total_rows FROM ".$dir;
                             $stmt = $con->prepare($query);
 
                             // thực thi truy vấn

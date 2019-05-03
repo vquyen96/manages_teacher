@@ -15,7 +15,6 @@
     <title>
         <?php
         $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
         $folder =  $uriSegments[3];
         $file = $uriSegments[4];
         switch ($folder) {
@@ -30,10 +29,31 @@
                     case 'them.php':
                         echo 'Thêm mới giáo viên';
                         break;
+                    case 'sua.php':
+                        echo 'Chỉnh sửa giáo viên';
+                        break;
+                    case 'don_vi.php':
+                        echo 'Đơn vị công tác';
+                        break;
                     case 'chuc_danh.php':
                         echo 'Chức danh giáo viên';
                         break;
                 }
+                break;
+            case 'sinh_vien':
+                switch ($file) {
+                    case 'danhsach.php':
+                        echo 'Danh sách sinh viên';
+                        break;
+                    case 'them.php':
+                        echo 'Thêm mới sinh viên';
+                        break;
+                    case 'sua.php':
+                        echo 'Chỉnh sửa sinh viên';
+                        break;
+                }
+                break;
+            default:
                 break;
         }
         ?>
@@ -51,33 +71,8 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="../../dist/css/skins/_all-skins.min.css">
-    <!-- Morris chart -->
-    <link rel="stylesheet" href="../../bower_components/morris.js/morris.css">
-    <!-- jvectormap -->
-    <link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">
-    <!-- Date Picker -->
-    <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
-    <!-- Daterange picker -->
-    <link rel="stylesheet" href="../../bower_components/bootstrap-daterangepicker/daterangepicker.css">
-    <!-- bootstrap wysihtml5 - text editor -->
-    <link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
-    <link rel="stylesheet" href="../../dist/css/style.css">
-
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- Google Font -->
-    <link rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-<?php
+    <?php
     if (isset($folder) && isset($file)) {
         switch ($folder) {
             case 'dashboard':
@@ -95,6 +90,30 @@
                     case 'chuc_danh.php':
                         echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         break;
+                    case 'don_vi.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    case 'them.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    case 'sua.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 'sinh_vien':
+                switch ($file) {
+                    case 'danhsach.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    case 'them.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    case 'sua.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
                     default:
                         break;
                 }
@@ -104,7 +123,23 @@
         };
     }
 
-?>
+    ?>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+          integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../../dist/css/style.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Google Font -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
 </head>
 <body class="hold-transition skin-red sidebar-mini">
 <div class="wrapper">
@@ -212,8 +247,14 @@
                         <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../sinh_vien/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../../#">
+                <li class="<?php if ($folder == 'danh_muc_nghien_cuu') echo 'active';?>">
+                    <a href="../danh_muc_nghien_cuu/danhsach.php">
+                        <i class="fas fa-stream"></i>
+                        <span>Danh mục nghiên cứu</span>
+                    </a>
+                </li>
+                <li class="<?php if ($folder == 'nghien_cuu') echo 'active';?> treeview">
+                    <a href="#">
                         <i class="fas fa-microscope"></i>
                         <span>Nghiên cứu</span>
                         <span class="pull-right-container">
@@ -221,8 +262,8 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="../../pages/research/index.php"><i class="far fa-circle"></i>Danh sách</a></li>
-                        <li><a href="../../pages/research/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>
+                        <li class="<?php if ($file == 'danhsach.php') echo 'active';?>"><a href="../nghien_cuu/danhsach.php"><i class="far fa-circle"></i>Danh sách</a></li>
+                        <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../nghien_cuu/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
                     </ul>
                 </li>
                 <li class="treeview">
