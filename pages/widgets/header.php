@@ -129,16 +129,16 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="../../#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                            <span class="hidden-xs">Phương Thảo</span>
+                            <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="user-image" alt="User Image">
+                            <span class="hidden-xs"><?php echo $auth['ho_ten']?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="img-circle" alt="User Image">
 
                                 <p>
-                                    Phương Thảo - Web Developer
+                                    <?php echo $auth['ho_ten']?> - Web Developer
                                     <small>Member since Mar. 2019</small>
                                 </p>
                             </li>
@@ -149,7 +149,7 @@
                                     <a href="" class="btn btn-default btn-flat">Cá nhân</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="../../pages/examples/login.php" class="btn btn-default btn-flat">Đăng
+                                    <a href="../dangxuat.php" class="btn btn-default btn-flat">Đăng
                                         xuất</a>
                                 </div>
                             </li>
@@ -167,10 +167,10 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                    <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
-                    <p>Phương Thảo</p>
+                    <p><?php echo $auth['ho_ten']?></p>
                     <a href="#"><i class="fa fa-circle text-success"></i> Quản lý</a>
                 </div>
             </div>
@@ -200,7 +200,7 @@
                     </ul>
                 </li>
                 <li class="<?php if ($folder == 'student') echo 'active';?> treeview">
-                    <a href="../../#">
+                    <a href="#">
                         <i class="fas fa-users"></i>
                         <span>Học sinh</span>
                         <span class="pull-right-container">
@@ -208,9 +208,8 @@
                     </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class=""><a href="../../pages/student/index.php"><i class="far fa-circle"></i>Danh sách</a>
-                        </li>
-                        <li><a href="../../create.php"><i class="far fa-circle"></i>Thêm mới</a></li>
+                        <li class="<?php if ($file == 'danhsach.php') echo 'active';?>"><a href="../sinh_vien/danhsach.php"><i class="far fa-circle"></i>Danh sách</a></li>
+                        <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../sinh_vien/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
                     </ul>
                 </li>
                 <li class="treeview">

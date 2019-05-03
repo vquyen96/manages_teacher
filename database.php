@@ -13,4 +13,10 @@ try {
 catch(PDOException $exception){
     echo "Connection error: " . $exception->getMessage();
 }
+
+$genders = [
+    0 => 'Nữ',
+    1 => 'Nam',
+    2 => 'Khác',
+];
 ?>

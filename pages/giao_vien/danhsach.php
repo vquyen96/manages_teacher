@@ -13,6 +13,25 @@
     // số lượng bản ghi trả về
     $num = $stmt->rowCount();
     // liên kết gọi đến trang Tạo sản phẩm mới
+
+    // Lấy map chức danh
+    $queryChucDanh = "SELECT * FROM chuc_danh ";
+    $stmtChucDanh = $con->prepare($queryChucDanh);
+    $stmtChucDanh->execute();
+    $chucdanh = [];
+    while ($rowChucDanh = $stmtChucDanh->fetch(PDO::FETCH_ASSOC)){
+        $chucdanh[$rowChucDanh['id']] = $rowChucDanh['ten'];
+    }
+
+    // Lấy map đơn vị
+    $queryDonVi = "SELECT * FROM don_vi_cong_tac ";
+    $stmtDonVi = $con->prepare($queryDonVi);
+    $stmtDonVi->execute();
+    $donvi = [];
+    while ($rowDonVi = $stmtDonVi->fetch(PDO::FETCH_ASSOC)){
+        $donvi[$rowDonVi['id']] = $rowDonVi['ten'];
+    }
+
 ?>
 
 <div class="content-wrapper">
@@ -60,10 +79,10 @@
                             <tr>
                                 <td><?php echo $ten?></td>
                                 <td><?php echo $email?></td>
-                                <td><?php echo $chuc_vu_id ?></td>
-                                <td><?php echo $don_vi_id?></td>
+                                <td><?php echo $chucdanh[$chuc_vu_id] ?></td>
+                                <td><?php echo $donvi[$don_vi_id] ?></td>
                                 <td>
-                                    <a href="sua.php" class="btn btn-primary">Sửa</a>
+                                    <a href="sua.php<?php echo '?id='.$id ?>" class="btn btn-primary">Sửa</a>
                                     <a href="xoa.php<?php echo '?id='.$id ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
                                 </td>
                             </tr>

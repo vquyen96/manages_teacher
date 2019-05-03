@@ -64,10 +64,10 @@
                                                 <label for="inputEmail3" class="col-sm-2 control-label" style="white-space: nowrap">Chức danh</label>
 
                                                 <div class="col-sm-10">
-                                                    <select name="chuc_vu_id"  class="form-control">
+                                                    <select name="chuc_vu_id"  class="form-control" required>
+                                                        <option value="" selected disabled>Chọn chức danh</option>
                                                         <?php
                                                             while ($chuc_danh = $chuc_danh_stmt->fetch(PDO::FETCH_ASSOC)) {
-//                                                                extract($row);
                                                                 echo '<option value="'.$chuc_danh['id'].'">'.$chuc_danh['ten'].'</option>';
                                                             }
                                                         ?>
@@ -77,10 +77,10 @@
                                             <div class="form-group">
                                                 <label for="inputEmail3" class="col-sm-2 control-label" style="white-space: nowrap">Đơn vị</label>
                                                 <div class="col-sm-10">
-                                                    <select name="don_vi_id" id="" class="form-control">
+                                                    <select name="don_vi_id" id="" class="form-control" required>
+                                                        <option value="" selected disabled>Chọn đơn vị công tác</option>
                                                         <?php
                                                         while ($don_vi = $don_vi_stmt->fetch(PDO::FETCH_ASSOC)) {
-//                                                                extract($row);
                                                             echo '<option value="'.$don_vi['id'].'">'.$don_vi['ten'].'</option>';
                                                         }
                                                         ?>
@@ -91,10 +91,13 @@
                                                 <label for="inputEmail3" class="col-sm-2 control-label" style="white-space: nowrap">Giới tính</label>
 
                                                 <div class="col-sm-10">
-                                                    <select name="gioi_tinh" class="form-control">
-                                                        <option value="0">Nữ</option>
-                                                        <option value="1">Nam</option>
-                                                        <option value="2">Khác</option>
+                                                    <select name="gioi_tinh" class="form-control" required>
+                                                        <option value="" selected disabled>Chọn giới tính</option>
+                                                        <?php
+                                                        foreach ($genders as $index => $gender) {
+                                                            echo '<option value="'.$index.'" >'.$gender.'</option>';
+                                                        }
+                                                        ?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -157,14 +160,18 @@ if($_POST){
 
         // Thực thi truy vấn
         if($stmt->execute()){
+            //Dùng JS để chuyển trang
+            echo '<script type="text/javascript">location.href = "danhsach.php";</script>';
+
+            //PHP chuyển trang bị lỗi
             if (headers_sent()) {
-                die("Chuyển trang bị lỗi. Hãy ấn vào <a href='don_vi.php'>Here</a>");
+                die("Chuyển trang bị lỗi. Hãy ấn vào <a href='danhsach.php'>Here</a>");
             }
             else{
                 header("Refresh:0");
             }
         }else{
-            header('Location: chuc_danh.php?create=error');
+            header('Location: danhsach.php?create=error');
         }
     }// hiển thị lỗi
     catch(PDOException $exception){
