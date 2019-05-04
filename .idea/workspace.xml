@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4524d01a-1156-4a02-8f57-6202b723808d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/pages/danh_muc_nghien_cuu/danhsach.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/danh_muc_nghien_cuu/xoa.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/nghien_cuu/danhsach.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/nghien_cuu/them.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/sinh_vien/sua.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pages/sinh_vien/xoa.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dist/js/pages/nghien_cuu/them.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/pages/nghien_cuu/sua.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist/js/pages/teacher/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/pages/giao_vien/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/sinh_vien/danhsach.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/sinh_vien/danhsach.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/dist/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/helper.php" beforeDir="false" afterPath="$PROJECT_DIR$/libs/helper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/nghien_cuu/them.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/nghien_cuu/them.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/widgets/footer.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/widgets/footer.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/widgets/header.php" beforeDir="false" afterPath="$PROJECT_DIR$/pages/widgets/header.php" afterDir="false" />
     </list>
@@ -21,95 +19,26 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.72409326">
+    <splitter split-orientation="horizontal" split-proportion="0.67822385">
       <split-first>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
           <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/danhsach.php">
+            <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/them.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="509">
-                  <caret line="84" column="79" selection-start-line="84" selection-start-column="79" selection-end-line="84" selection-end-column="79" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/widgets/header.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="712">
-                  <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/giao_vien/index.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="391">
-                  <caret line="23" column="74" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="23" selection-end-column="74" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/index.html">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="595">
-                  <caret line="35" column="19" lean-forward="true" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
+                <state relative-caret-position="170">
+                  <caret line="10" column="50" selection-end-line="263" />
                 </state>
               </provider>
             </entry>
           </file>
           <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/pages/widgets/footer.php">
+            <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/sua.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="620">
-                  <caret line="68" column="119" lean-forward="true" selection-start-line="68" selection-start-column="119" selection-end-line="68" selection-end-column="119" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/dashboard/index.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-8101" />
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/giao_vien/them.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="342">
-                  <caret line="72" column="58" lean-forward="true" selection-start-line="68" selection-start-column="56" selection-end-line="72" selection-end-column="58" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/sinh_vien/danhsach.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="283">
-                  <caret line="96" column="40" selection-start-line="96" selection-start-column="40" selection-end-line="96" selection-end-column="40" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/danh_muc_nghien_cuu/danhsach.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="527">
-                  <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
-                </state>
-              </provider>
-            </entry>
-          </file>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/them.php">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="68">
-                  <caret line="4" column="52" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="52" />
+                <state relative-caret-position="355">
+                  <caret line="179" column="125" lean-forward="true" selection-start-line="179" selection-start-column="125" selection-end-line="179" selection-end-column="125" />
                   <folding>
-                    <element signature="n#style#0;n#label#0;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
+                    <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
                   </folding>
                 </state>
               </provider>
@@ -119,20 +48,32 @@
       </split-first>
       <split-second>
         <leaf>
-          <file pinned="false" current-in-tab="false">
-            <entry file="file://$PROJECT_DIR$/pages/giao_vien/sua.php">
+          <file pinned="false" current-in-tab="true">
+            <entry file="file://$PROJECT_DIR$/dist/js/script.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="102">
-                  <caret line="60" column="44" lean-forward="true" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
+                <state relative-caret-position="153">
+                  <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
                 </state>
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/pages/giao_vien/xoa.php">
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/pages/sinh_vien/sua.php">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="85">
-                  <caret line="5" column="8" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="8" />
+                <state relative-caret-position="17">
+                  <caret line="1" selection-end-line="1" />
+                  <folding>
+                    <element signature="n#style#0;n#label#0;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
+                  </folding>
+                </state>
+              </provider>
+            </entry>
+          </file>
+          <file pinned="false" current-in-tab="false">
+            <entry file="file://$PROJECT_DIR$/pages/widgets/header.php">
+              <provider selected="true" editor-type-id="text-editor">
+                <state relative-caret-position="561">
+                  <caret line="155" column="17" selection-start-line="155" selection-start-column="17" selection-end-line="155" selection-end-column="17" />
                 </state>
               </provider>
             </entry>
@@ -163,8 +104,13 @@
       <find>id=&quot;inputEmail3&quot;</find>
       <find>for=&quot;inputEmail3&quot;</find>
       <find>chuc_danh</find>
-      <find>id=&quot;inputEmail3&quot;</find>
       <find>ChucDanh</find>
+      <find>id=&quot;inputGroupSelect02&quot;</find>
+      <find>,</find>
+      <find>.$</find>
+      <find>.</find>
+      <find>giao_vien</find>
+      <find>nghien_cuu</find>
     </findStrings>
     <replaceStrings>
       <replace>href=&quot;../../</replace>
@@ -185,6 +131,15 @@
       <replace>ten</replace>
       <replace>danh_muc</replace>
       <replace>DanhMuc</replace>
+      <replace>_giao_vien</replace>
+      <replace>giao_vien_thoi_gian</replace>
+      <replace>giao_vien_vai_tro</replace>
+      <replace>', '</replace>
+      <replace>.&quot;==&quot;.</replace>
+      <replace>sinh_vien</replace>
+      <replace>$giao_vien_all</replace>
+      <replace>sinh_vien_nghien_cuu</replace>
+      <replace>giao_vien</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -207,7 +162,6 @@
         <option value="$PROJECT_DIR$/index.php" />
         <option value="$PROJECT_DIR$/pages/giao_vien/delete.php" />
         <option value="$PROJECT_DIR$/libs/role.php" />
-        <option value="$PROJECT_DIR$/libs/helper.php" />
         <option value="$PROJECT_DIR$/seeder.php" />
         <option value="$PROJECT_DIR$/create.php" />
         <option value="$PROJECT_DIR$/libs/session.php" />
@@ -215,7 +169,6 @@
         <option value="$PROJECT_DIR$/libs/checkLogout.php" />
         <option value="$PROJECT_DIR$/pages/dangnhap.php" />
         <option value="$PROJECT_DIR$/manages_teacher.sql" />
-        <option value="$PROJECT_DIR$/dist/css/style.css" />
         <option value="$PROJECT_DIR$/libs/paginate.php" />
         <option value="$PROJECT_DIR$/pages/giao_vien/chuc_danh.php" />
         <option value="$PROJECT_DIR$/pages/giao_vien/don_vi.php" />
@@ -229,18 +182,22 @@
         <option value="$PROJECT_DIR$/pages/hoc_sinh/danh_sach.php" />
         <option value="$PROJECT_DIR$/pages/hoc_sinh/danhsach.php" />
         <option value="$PROJECT_DIR$/pages/sinh_vien/them.php" />
-        <option value="$PROJECT_DIR$/database.php" />
         <option value="$PROJECT_DIR$/pages/giao_vien/danhsach.php" />
-        <option value="$PROJECT_DIR$/pages/sinh_vien/sua.php" />
         <option value="$PROJECT_DIR$/pages/sinh_vien/xoa.php" />
         <option value="$PROJECT_DIR$/pages/giao_vien/xoa.php" />
         <option value="$PROJECT_DIR$/pages/danh_muc_nghien_cuu/xoa.php" />
         <option value="$PROJECT_DIR$/pages/danh_muc_nghien_cuu/danhsach.php" />
-        <option value="$PROJECT_DIR$/pages/nghien_cuu/them.php" />
         <option value="$PROJECT_DIR$/pages/nghien_cuu/danhsach.php" />
         <option value="$PROJECT_DIR$/pages/sinh_vien/danhsach.php" />
-        <option value="$PROJECT_DIR$/pages/widgets/header.php" />
+        <option value="$PROJECT_DIR$/dist/css/style.css" />
         <option value="$PROJECT_DIR$/pages/widgets/footer.php" />
+        <option value="$PROJECT_DIR$/database.php" />
+        <option value="$PROJECT_DIR$/libs/helper.php" />
+        <option value="$PROJECT_DIR$/pages/sinh_vien/sua.php" />
+        <option value="$PROJECT_DIR$/pages/nghien_cuu/them.php" />
+        <option value="$PROJECT_DIR$/pages/widgets/header.php" />
+        <option value="$PROJECT_DIR$/dist/js/script.js" />
+        <option value="$PROJECT_DIR$/pages/nghien_cuu/sua.php" />
       </list>
     </option>
   </component>
@@ -284,14 +241,6 @@
             <path>
               <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
               <item name="manages_teacher" type="462c0819:PsiDirectoryNode" />
-              <item name="dist" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="giao_vien" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
-              <item name="manages_teacher" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -310,13 +259,19 @@
               <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
               <item name="manages_teacher" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
-              <item name="giao_vien" type="462c0819:PsiDirectoryNode" />
+              <item name="examples" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
               <item name="manages_teacher" type="462c0819:PsiDirectoryNode" />
               <item name="pages" type="462c0819:PsiDirectoryNode" />
               <item name="nghien_cuu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
+              <item name="manages_teacher" type="462c0819:PsiDirectoryNode" />
+              <item name="pages" type="462c0819:PsiDirectoryNode" />
+              <item name="research" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="manages_teacher" type="b2602c69:ProjectViewProjectNode" />
@@ -338,19 +293,19 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/code/rmt2_server" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\Xampp\htdocs\manages_teacher\pages\teacher" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\XAMP\htdocs\manages_teacher\pages\nghien_cuu" />
       <recent name="F:\Xampp\htdocs\manages_teacher\pages" />
       <recent name="F:\Xampp\htdocs\manages_teacher\libs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="F:\Xampp\htdocs\manages_teacher\pages\teacher" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -382,18 +337,22 @@
       <workItem from="1556794369695" duration="2826000" />
       <workItem from="1556803184896" duration="3730000" />
       <workItem from="1556871498565" duration="1296000" />
-      <workItem from="1556873437419" duration="8432000" />
+      <workItem from="1556873437419" duration="8703000" />
+      <workItem from="1556932633402" duration="2478000" />
+      <workItem from="1556938773524" duration="3055000" />
+      <workItem from="1556942836229" duration="4534000" />
+      <workItem from="1556954115605" duration="14506000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55110000" />
+    <option name="totallyTimeSpent" value="79954000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17697228" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.123667374" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -429,36 +388,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/xoa_don_vi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="10" lean-forward="true" selection-start-line="16" selection-start-column="10" selection-end-line="16" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/libs/map_chuc_danh.php" />
-    <entry file="file://$PROJECT_DIR$/libs/helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="29" selection-start-line="2" selection-start-column="9" selection-end-line="2" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Desktop/manages_export_1.sql" />
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/don_vi.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="147">
-          <caret line="183" column="93" lean-forward="true" selection-start-line="183" selection-start-column="16" selection-end-line="183" selection-end-column="93" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/img/default-50x50.gif" />
-    <entry file="file://$PROJECT_DIR$/dist/img/photo1.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/dist/img/photo2.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/dist/img/photo3.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -507,13 +436,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/dangnhap.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="238">
-          <caret line="128" column="65" lean-forward="true" selection-start-line="128" selection-start-column="12" selection-end-line="128" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/dangxuat.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="102">
@@ -536,13 +458,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/student/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
@@ -557,31 +472,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/sinh_vien/sua.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="502">
-          <caret line="161" column="29" lean-forward="true" selection-start-line="161" selection-start-column="29" selection-end-line="161" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/sua.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="60" column="44" lean-forward="true" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/giao_vien/chuc_danh.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="864">
           <caret line="194" column="96" selection-end-line="255" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/xoa.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="8" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="8" />
         </state>
       </provider>
     </entry>
@@ -606,74 +500,159 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/them.php">
+    <entry file="file://$PROJECT_DIR$/pages/giao_vien/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="342">
-          <caret line="72" column="58" lean-forward="true" selection-start-line="68" selection-start-column="56" selection-end-line="72" selection-end-column="58" />
+        <state relative-caret-position="391">
+          <caret line="23" column="74" selection-start-line="20" selection-start-column="4" selection-end-line="23" selection-end-column="74" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="595">
+          <caret line="35" column="19" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/dashboard/index.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/sinh_vien/danhsach.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1632">
+          <caret line="96" column="40" selection-start-line="96" selection-start-column="40" selection-end-line="96" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/danh_muc_nghien_cuu/danhsach.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
+        <state relative-caret-position="629">
           <caret line="37" column="15" selection-start-line="37" selection-start-column="15" selection-end-line="37" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/giao_vien/sua.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1020">
+          <caret line="60" column="44" selection-start-line="60" selection-start-column="44" selection-end-line="60" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/giao_vien/xoa.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="8" selection-start-line="5" selection-start-column="4" selection-end-line="5" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/danhsach.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="23" column="1" selection-start-line="16" selection-end-line="23" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/research/form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6562">
+          <caret line="386" column="7" selection-start-line="375" selection-start-column="4" selection-end-line="386" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$APPLICATION_HOME_DIR$/lib/platform-impl.jar!/resources/html5-schema/html5/web-forms.rnc">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="238">
+          <caret line="14" column="18" selection-start-line="14" selection-start-column="18" selection-end-line="14" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/giao_vien/them.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="365">
+          <caret line="137" column="10" selection-start-line="137" selection-start-column="10" selection-end-line="137" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/dist/js/pages/nghien_cuu/them.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/libs/helper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="22" selection-start-line="22" selection-end-line="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="2" selection-start-line="20" selection-start-column="2" selection-end-line="20" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/dangnhap.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="135" column="53" selection-start-line="135" selection-start-column="28" selection-end-line="135" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/widgets/footer.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1113">
+          <caret line="118" column="7" selection-start-line="118" selection-start-column="7" selection-end-line="118" selection-end-column="7" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/them.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="52" selection-start-line="4" selection-start-column="33" selection-end-line="4" selection-end-column="52" />
+        <state relative-caret-position="170">
+          <caret line="10" column="50" selection-end-line="263" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/sinh_vien/sua.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" selection-end-line="1" />
           <folding>
             <element signature="n#style#0;n#label#0;n#div#3;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/danhsach.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="509">
-          <caret line="84" column="79" selection-start-line="84" selection-start-column="79" selection-end-line="84" selection-end-column="79" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/sinh_vien/danhsach.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="96" column="40" selection-start-line="96" selection-start-column="40" selection-end-line="96" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/dashboard/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-8101" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="595">
-          <caret line="35" column="19" lean-forward="true" selection-start-line="35" selection-start-column="19" selection-end-line="35" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/pages/giao_vien/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="23" column="74" lean-forward="true" selection-start-line="20" selection-start-column="4" selection-end-line="23" selection-end-column="74" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/pages/widgets/header.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="712">
-          <caret line="73" lean-forward="true" selection-start-line="73" selection-end-line="73" />
+        <state relative-caret-position="561">
+          <caret line="155" column="17" selection-start-line="155" selection-start-column="17" selection-end-line="155" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pages/widgets/footer.php">
+    <entry file="file://$PROJECT_DIR$/dist/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="620">
-          <caret line="68" column="119" lean-forward="true" selection-start-line="68" selection-start-column="119" selection-end-line="68" selection-end-column="119" />
+        <state relative-caret-position="153">
+          <caret line="9" column="38" selection-start-line="9" selection-start-column="38" selection-end-line="9" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pages/nghien_cuu/sua.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="355">
+          <caret line="179" column="125" lean-forward="true" selection-start-line="179" selection-start-column="125" selection-end-line="179" selection-end-column="125" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#5;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#div#6;n#div#0;n#div#1;n#div#0;n#div#0;n#form#0;n#div#0;n#div#0;n#div#0;n#section#1;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

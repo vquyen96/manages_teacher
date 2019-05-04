@@ -70,9 +70,51 @@ $file = $uriSegments[4];
 //                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
                     echo '<script src="../../dist/js/pages/giao_vien/index.js"></script>';
                     break;
+                case 'them.php':
+                    break;
+                case 'sua.php':
+                    break;
+
             }
             break;
+        case 'sinh_vien':
+            switch ($file) {
+                case 'danhsach.php':
+                    echo '<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>';
+                    echo '<script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
+//                    echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
+//                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
+                    echo '<script src="../../dist/js/pages/giao_vien/index.js"></script>';
+                    break;
+                case 'them.php':
+                    break;
+                case 'sua.php':
+                    break;
+
+            }
+            break;
+        case 'nghien_cuu':
+            switch ($file) {
+                case 'danhsach.php':
+                    echo '<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>';
+                    echo '<script src="../../bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>';
+//                    echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
+//                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
+                    echo '<script src="../../dist/js/pages/giao_vien/index.js"></script>';
+                    break;
+                case 'them.php':
+                    echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>';
+                    break;
+                case 'sua.php':
+                    echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>';
+                    break;
+
+            }
+            break;
+
     }
 ?>
+<script src="../../dist/js/script.js"></script>
+
 </body>
 </html>

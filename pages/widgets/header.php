@@ -53,6 +53,26 @@
                         break;
                 }
                 break;
+            case 'danh_muc_nghien_cuu':
+                switch ($file) {
+                    case 'danhsach.php':
+                        echo 'Danh mục nghiên cứu';
+                        break;
+                }
+                break;
+            case 'nghien_cuu':
+                switch ($file) {
+                    case 'danhsach.php':
+                        echo 'Danh sách nghiên cứu';
+                        break;
+                    case 'them.php':
+                        echo 'Thêm mới nghiên cứu';
+                        break;
+                    case 'sua.php':
+                        echo 'Chỉnh sửa nghiên cứu';
+                        break;
+                }
+                break;
             default:
                 break;
         }
@@ -113,6 +133,23 @@
                         break;
                     case 'sua.php':
                         echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 'nghien_cuu':
+                switch ($file) {
+                    case 'danhsach.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        break;
+                    case 'them.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />';
+                        break;
+                    case 'sua.php':
+                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
+                        echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />';
                         break;
                     default:
                         break;
@@ -295,4 +332,4 @@
             </ul>
         </section>
         <!-- /.sidebar -->
-    </aside>
+    </aside>                                     

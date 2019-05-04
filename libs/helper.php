@@ -9,4 +9,19 @@ function generateRandomString($length) {
     }
     return $randomString;
 }
+
+function generateId($length, $table, $con) {
+    do{
+        $id = generateRandomString($length);
+        $query_get_id = "SELECT * FROM ".$table." WHERE id=':id'" ;
+        $stmt_get_id = $con->prepare($query_get_id);
+        $stmt_get_id->bindParam(':id', $id);
+        $stmt_get_id->execute();
+        $exist_nghien_cuu = $stmt_get_id->fetchAll(PDO::FETCH_ASSOC);
+        $continue = count($exist_nghien_cuu) != 0;
+    }while($continue);
+
+    return $id;
+}
+
 ?>

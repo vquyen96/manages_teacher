@@ -1,6 +1,30 @@
 <?php
 include_once('../widgets/header.php');
 $dir = basename(__DIR__) ;
+//Lấy Id từ thanh địa chỉ
+$id=isset($_GET['id']) ? $_GET['id'] : die('LỖI: Không tìm thấy ID.');
+
+// Lấy nghiên cứu đang sửa
+$query_nghien_cuu = "SELECT * FROM ".$dir." WHERE id = ? LIMIT 0,1";
+$stmt_nghien_cuu = $con->prepare( $query_nghien_cuu );
+$stmt_nghien_cuu->bindParam(1, $id);
+$stmt_nghien_cuu->execute();
+$nghien_cuu = $stmt_nghien_cuu->fetch(PDO::FETCH_ASSOC);
+
+// Lấy danh sách giáo nghiên cứu
+$query_giao_vien_nghien_cuu = "SELECT * FROM giao_vien_nghien_cuu WHERE nghien_cuu_id = ?";
+$stmt_giao_vien_nghien_cuu = $con->prepare( $query_giao_vien_nghien_cuu );
+$stmt_giao_vien_nghien_cuu->bindParam(1, $id);
+$stmt_giao_vien_nghien_cuu->execute();
+$giao_vien_nghien_cuu = $stmt_giao_vien_nghien_cuu->fetchAll(PDO::FETCH_ASSOC);
+
+// Lấy danh sách sinh viên nghiên cứu
+$query_sinh_vien_nghien_cuu = "SELECT * FROM sinh_vien_nghien_cuu WHERE nghien_cuu_id = ?";
+$stmt_sinh_vien_nghien_cuu = $con->prepare( $query_sinh_vien_nghien_cuu );
+$stmt_sinh_vien_nghien_cuu->bindParam(1, $id);
+$stmt_sinh_vien_nghien_cuu->execute();
+$sinh_vien_nghien_cuu = $stmt_sinh_vien_nghien_cuu->fetchAll(PDO::FETCH_ASSOC);
+
 // Lấy danh sách danh mục
 $danh_muc_query = "SELECT * FROM danh_muc_nghien_cuu ORDER BY id DESC";
 $danh_muc_stmt = $con->prepare($danh_muc_query);
@@ -57,28 +81,28 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Tên</label>
                                             <div class="col-sm-10">
-                                                <input type="text" name="ten" class="form-control" placeholder="Tên">
+                                                <input type="text" name="ten" class="form-control" placeholder="Tên" value="<?php echo $nghien_cuu['ten']?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Chi tiết</label>
 
                                             <div class="col-sm-10">
-                                                <textarea name="chi_tiet" class="form-control" cols="30" rows="10"></textarea>
+                                                <textarea name="chi_tiet" class="form-control" cols="30" rows="10"><?php echo $nghien_cuu['chi_tiet']?></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Bắt đầu</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" name="thoi_gian_bat_dau" class="form-control" placeholder="Thời gian bắt đầu">
+                                                <input type="text" name="thoi_gian_bat_dau" class="form-control" placeholder="Thời gian bắt đầu" value="<?php echo $nghien_cuu['ten']?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Kêt thúc</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" name="thoi_gian_ket_thuc" class="form-control" placeholder="Thời gian kết thúc">
+                                                <input type="text" name="thoi_gian_ket_thuc" class="form-control" placeholder="Thời gian kết thúc" value="<?php echo $nghien_cuu['ten']?>">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -89,7 +113,10 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                                     <option value="" selected disabled>Chọn danh mục</option>
                                                     <?php
                                                     while ($danh_muc = $danh_muc_stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                        echo '<option value="'.$danh_muc['id'].'">'.$danh_muc['ten'].'</option>';
+                                                        if ($nghien_cuu['danh_muc_id'] == $danh_muc['id'])
+                                                            echo '<option value="'.$danh_muc['id'].'" selected>'.$danh_muc['ten'].'</option>';
+                                                        else
+                                                            echo '<option value="'.$danh_muc['id'].'">'.$danh_muc['ten'].'</option>';
                                                     }
                                                     ?>
                                                 </select>
@@ -97,6 +124,27 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                         <hr>
                                         <h3>Giáo viên</h3>
+
+                                        <?php foreach ($giao_vien_nghien_cuu as $gvnc) { ?>
+                                        <div class="mb-3 d-flex">
+                                            <div class="form-control d-flex" style="align-items: center">
+                                                <select class="form-control select2" name="giao_vien_id[]">
+                                                    <option selected disabled>Chọn giáo viên</option>
+                                                    <?php
+                                                    foreach ($giao_vien_all as $item) {
+                                                        if ($gvnc['giao_vien_id'] == $item['id'])
+                                                            echo '<option value="'.$item['id'].'" selected>'.$item['ten'].'</option>';
+                                                        else
+                                                            echo '<option value="'.$item['id'].'">'.$item['ten'].'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+
+                                            <input type="text" name="giao_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu" value="<?php echo $gvnc['thoi_gian'] ?>">
+                                            <input type="text" name="giao_vien_vai_tro[]" class=" form-control" placeholder="Vai trò" value="<?php echo $gvnc['vai_tro'] ?>">
+                                        </div>
+                                        <?php }?>
                                         <div class="mb-3 d-flex">
                                             <div class="form-control d-flex" style="align-items: center">
                                                 <select class="form-control select2" name="giao_vien_id[]">
@@ -119,10 +167,29 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
 
                                         <hr>
                                         <h3>Sinh viên</h3>
+                                        <?php foreach ($sinh_vien_nghien_cuu as $svnc) {?>
                                         <div class="mb-3 d-flex" >
                                             <div class="form-control d-flex" style="align-items: center">
                                                 <select class="form-control select2" name="sinh_vien_id[]">
-                                                    <option selected disabled>Chọn giao viên</option>
+                                                    <option selected disabled>Chọn sinh viên</option>
+                                                    <?php
+                                                    foreach ($sinh_vien_all as $item) {
+                                                        if ($svnc['sinh_vien_id'] == $item['id'])
+                                                            echo '<option value="'.$item['id'].'" selected>'.$item['ten'].'</option>';
+                                                        else
+                                                            echo '<option value="'.$item['id'].'">'.$item['ten'].'</option>';
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu"  value="<?php echo $svnc['thoi_gian'] ?>">
+                                            <input type="text" name="sinh_vien_vai_tro[]" class=" form-control" placeholder="Vai trò" value="<?php echo $svnc['vai_tro'] ?>">
+                                        </div>
+                                        <?php }?>
+                                        <div class="mb-3 d-flex" >
+                                            <div class="form-control d-flex" style="align-items: center">
+                                                <select class="form-control select2" name="sinh_vien_id[]">
+                                                    <option selected disabled>Chọn sinh viên</option>
                                                     <?php
                                                     foreach ($sinh_vien_all as $item) {
                                                         echo '<option value="'.$item['id'].'">'.$item['ten'].'</option>';
@@ -133,7 +200,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu">
                                             <input type="text" name="sinh_vien_vai_tro[]" class=" form-control" placeholder="Vai trò">
                                         </div>
-                                        <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-add-svnc">
+                                        <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-add-svnc" >
                                             <i class="fas fa-plus"></i>
                                             Thêm sinh viên
                                         </button>
