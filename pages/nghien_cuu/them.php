@@ -184,6 +184,7 @@ if($_POST){
         // Hàm tạo chuỗi id unique(duy nhất)
         $id_nghien_cuu = generateId(8, 'nghien_cuu', $con);
 
+
         // Các giá trị được lấy từ các trường nhập trên form
         $ten = htmlspecialchars(strip_tags($_POST['ten']));
         $chi_tiet = htmlspecialchars(strip_tags($_POST['chi_tiet']));

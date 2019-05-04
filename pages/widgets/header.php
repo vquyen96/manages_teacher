@@ -4,6 +4,7 @@
     include '../../database.php';
     include '../../libs/role.php';
     include '../../libs/session.php';
+    include '../../libs/helper.php';
     include '../../libs/checkLogin.php';
 ?>
 
@@ -178,7 +179,7 @@
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 
 </head>
-<body class="hold-transition skin-red sidebar-mini">
+<body class="hold-transition skin-red sidebar-mini sidebar-collapse">
 <div class="wrapper">
 
     <header class="main-header">
