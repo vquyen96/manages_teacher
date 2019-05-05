@@ -3,11 +3,10 @@ include_once('../widgets/header.php') ;
 include_once('../../libs/paginate.php') ;
 $dir = basename(__DIR__) ;
 // lấy dữ liệu cho trang hiện tại
-$query = "SELECT * FROM {$dir} ORDER BY id DESC
-            LIMIT :from_record_num, :records_per_page";
+$query = "SELECT * FROM {$dir} ORDER BY id DESC";
 $stmt = $con->prepare($query);
-$stmt->bindParam(":from_record_num", $from_record_num, PDO::PARAM_INT);
-$stmt->bindParam(":records_per_page", $records_per_page, PDO::PARAM_INT);
+//$stmt->bindParam(":from_record_num", $from_record_num, PDO::PARAM_INT);
+//$stmt->bindParam(":records_per_page", $records_per_page, PDO::PARAM_INT);
 $stmt->execute();
 
 // số lượng bản ghi trả về
@@ -68,10 +67,11 @@ while ($rowDanhMuc = $stmtDanhMuc->fetch(PDO::FETCH_ASSOC)){
                                     ?>
                                     <tr>
                                         <td><?php echo $ten?></td>
-                                        <td><?php echo $thoi_gian_bat_dau?></td>
-                                        <td><?php echo $thoi_gian_ket_thuc ?></td>
+                                        <td><?php echo date('d/m/Y', $thoi_gian_bat_dau)?></td>
+                                        <td><?php echo date('d/m/Y', $thoi_gian_ket_thuc)?></td>
                                         <td><?php echo $danhMuc[$danh_muc_id] ?></td>
                                         <td>
+                                            <a href="xem.php<?php echo '?id='.$id ?>" class="btn btn-success">Xem</a>
                                             <a href="sua.php<?php echo '?id='.$id ?>" class="btn btn-primary">Sửa</a>
                                             <a href="xoa.php<?php echo '?id='.$id ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
                                         </td>
@@ -80,21 +80,21 @@ while ($rowDanhMuc = $stmtDanhMuc->fetch(PDO::FETCH_ASSOC)){
                             </table>
                             <?php
 
-                            // PHÂN TRANG
-                            // đếm tổng số bản ghi
-                            $query = "SELECT COUNT(*) as total_rows FROM ".$dir;
-                            $stmt = $con->prepare($query);
-
-                            // thực thi truy vấn
-                            $stmt->execute();
-
-                            // lấy tổng số dòng dữ liệu
-                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
-                            $total_rows = $row['total_rows'];
-
-                            // điều hướng phân trang
-                            $page_url="danhsach.php?";
-                            include_once "../../paging.php";
+//                            // PHÂN TRANG
+//                            // đếm tổng số bản ghi
+//                            $query = "SELECT COUNT(*) as total_rows FROM ".$dir;
+//                            $stmt = $con->prepare($query);
+//
+//                            // thực thi truy vấn
+//                            $stmt->execute();
+//
+//                            // lấy tổng số dòng dữ liệu
+//                            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+//                            $total_rows = $row['total_rows'];
+//
+//                            // điều hướng phân trang
+//                            $page_url="danhsach.php?";
+//                            include_once "../../paging.php";
 
                         } else {
                             echo "<div class='alert alert-danger'>Không tìm thấy giáo viên nào.</div>";

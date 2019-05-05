@@ -93,9 +93,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'sua') {
                                                     <td><?php echo $ten?></td>
                                                     <td><?php echo $ma?></td>
                                                     <td><?php echo $thoi_gian_dinh_muc ?></td>
-                                                    <td>
-                                                        <a href="danhsach.php<?php echo '?id='.$id.'&action=sua'?>" class="btn btn-primary">Sửa</a>
-                                                        <a href="xoa.php<?php echo '?id='.$id?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
+                                                    <td class="d-flex">
+                                                        <a href="danhsach.php<?php echo '?id='.$id.'&action=sua'?>" class="btn btn-sm btn-primary margin-r-2">Sửa</a>
+                                                        <a href="xoa.php<?php echo '?id='.$id?>" class="btn btn-sm btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
                                                     </td>
                                                 </tr>
                                             <?php }?>
@@ -104,7 +104,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'sua') {
 
                                         // PHÂN TRANG
                                         // đếm tổng số bản ghi
-                                        $query = "SELECT COUNT(*) as total_rows FROM products";
+                                        $query = "SELECT COUNT(*) as total_rows FROM danh_muc_nghien_cuu";
                                         $stmt = $con->prepare($query);
 
                                         // thực thi truy vấn

@@ -8,6 +8,13 @@
 <!-- Add the sidebar's background. This div must be placed
      immediately after the control sidebar -->
 <div class="control-sidebar-bg"></div>
+<?php
+    if(session_get('error')) {
+        echo '<div class="alert alert-danger alert-flash">'.session_get('error').'</div>';
+        session_delete('error');
+    }
+
+?>
 </div>
 <!-- ./wrapper -->
 
@@ -31,10 +38,6 @@
 <script src="../../dist/js/demo.js"></script>
 
 <?php
-$uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-
-$folder =  $uriSegments[3];
-$file = $uriSegments[4];
     switch ($folder) {
         case 'dashboard':
 //          Morris.js charts
@@ -104,9 +107,14 @@ $file = $uriSegments[4];
                     break;
                 case 'them.php':
                     echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>';
+                    echo '<script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>';
+                    echo '<script src="../../dist/js/pages/nghien_cuu/them.js"></script>';
+
                     break;
                 case 'sua.php':
                     echo '<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>';
+                    echo '<script src="../../bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>';
+                    echo '<script src="../../dist/js/pages/nghien_cuu/them.js"></script>';
                     break;
 
             }

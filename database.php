@@ -19,4 +19,20 @@ $genders = [
     1 => 'Nam',
     2 => 'Khác',
 ];
+
+$roles = [
+    1 => 'Quản lý',
+    2 => 'Giáo viên',
+];
+
+$ranks = [
+    1 => 'Thiếu úy',
+    2 => 'Trung úy',
+    3 => 'Thượng úy',
+    4 => 'Đại úy',
+    5 => 'Thiếu tá',
+    6 => 'Trung tá',
+    7 => 'Thượng tá',
+    8 => 'Đại tá'
+];
 ?>

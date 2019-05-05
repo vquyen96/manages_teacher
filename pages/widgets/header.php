@@ -85,6 +85,8 @@
     <link rel="stylesheet" href="../../bower_components/bootstrap/dist/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <!--<link rel="stylesheet" href="../../bower_components/font-awesome/css/font-awesome.min.css">-->
+    <!-- bootstrap datepicker -->
+    <link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="../../bower_components/Ionicons/css/ionicons.min.css">
     <!-- Theme style -->
@@ -145,12 +147,14 @@
                         echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         break;
                     case 'them.php':
-                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />';
+                        echo '<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">';
+//                        echo '<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css">';
+
                         break;
                     case 'sua.php':
-                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         echo '<link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />';
+                        echo '<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">';
                         break;
                     default:
                         break;
@@ -202,13 +206,13 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="../../#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="user-image" alt="User Image">
+                            <img src="<?php if ($auth['hinh_anh'] != null && $auth['hinh_anh'] != "") echo '../../uploads/hinh-anh/'.$auth['hinh_anh']; else echo '../../dist/img/user2.jpg';  ?>" class="user-image" alt="User Image">
                             <span class="hidden-xs"><?php echo $auth['ho_ten']?></span>
                         </a>
                         <ul class="dropdown-menu">
                             <!-- User image -->
                             <li class="user-header">
-                                <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="img-circle" alt="User Image">
+                                <img src="<?php if ($auth['hinh_anh'] != null && $auth['hinh_anh'] != "") echo '../../uploads/hinh-anh/'.$auth['hinh_anh']; else echo '../../dist/img/user2.jpg';  ?>" class="img-circle" alt="User Image">
 
                                 <p>
                                     <?php echo $auth['ho_ten']?> - Web Developer
@@ -219,7 +223,7 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="" class="btn btn-default btn-flat">Cá nhân</a>
+                                    <a href="../tai_khoan/ca_nhan.php" class="btn btn-default btn-flat">Cá nhân</a>
                                 </div>
                                 <div class="pull-right">
                                     <a href="../dangxuat.php" class="btn btn-default btn-flat">Đăng
@@ -240,11 +244,11 @@
             <!-- Sidebar user panel -->
             <div class="user-panel">
                 <div class="pull-left image">
-                    <img src="<?php if ($auth['hinh_anh'] == null) echo "../../dist/img/user2.jpg"; else echo $auth['hinh_anh'];  ?>" class="img-circle" alt="User Image">
+                    <img src="<?php if ($auth['hinh_anh'] != null && $auth['hinh_anh'] != "") echo '../../uploads/hinh-anh/'.$auth['hinh_anh']; else echo '../../dist/img/user2.jpg';  ?>" class="img-circle" alt="User Image">
                 </div>
                 <div class="pull-left info">
                     <p><?php echo $auth['ho_ten']?></p>
-                    <a href="#"><i class="fa fa-circle text-success"></i> Quản lý</a>
+                    <a href="#"><i class="fa fa-circle text-success"></i> <?php echo $roles[$auth['phan_quyen']]?></a>
                 </div>
             </div>
 
@@ -304,32 +308,32 @@
                         <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../nghien_cuu/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
                     </ul>
                 </li>
-                <li class="treeview">
-                    <a href="../../#">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Giáo trình</span>
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../pages/document/index.php"><i class="far fa-circle"></i>Danh sách</a></li>
-                        <li><a href="../../pages/document/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>
-                    </ul>
-                </li>
-                <li class="treeview">
-                    <a href="../../#">
-                        <i class="far fa-address-card"></i>
-                        <span>Bài báo</span>
-                        <span class="pull-right-container">
-                          <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li><a href="../../pages/post/index.php"><i class="far fa-circle"></i>Danh sách</a></li>
-                        <li><a href="../../pages/post/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>
-                    </ul>
-                </li>
+<!--                <li class="treeview">-->
+<!--                    <a href="../../#">-->
+<!--                        <i class="fas fa-file-alt"></i>-->
+<!--                        <span>Giáo trình</span>-->
+<!--                        <span class="pull-right-container">-->
+<!--                          <i class="fa fa-angle-left pull-right"></i>-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                    <ul class="treeview-menu">-->
+<!--                        <li><a href="../../pages/document/index.php"><i class="far fa-circle"></i>Danh sách</a></li>-->
+<!--                        <li><a href="../../pages/document/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li class="treeview">-->
+<!--                    <a href="../../#">-->
+<!--                        <i class="far fa-address-card"></i>-->
+<!--                        <span>Bài báo</span>-->
+<!--                        <span class="pull-right-container">-->
+<!--                          <i class="fa fa-angle-left pull-right"></i>-->
+<!--                        </span>-->
+<!--                    </a>-->
+<!--                    <ul class="treeview-menu">-->
+<!--                        <li><a href="../../pages/post/index.php"><i class="far fa-circle"></i>Danh sách</a></li>-->
+<!--                        <li><a href="../../pages/post/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->

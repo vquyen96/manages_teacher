@@ -43,16 +43,19 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                     <div class="box-header">
                         <h3 class="box-title">Thêm mới Nghiên cứu</h3>
                     </div>
-                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
+                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post"  enctype="multipart/form-data">
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="thumbnail">
-                                        <img src="../../dist/img/photo3.jpg" alt="">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label">Minh Chứng</label>
+                                        <div class="col-sm-8">
+                                            <input type="file" name="minh_chung" class="form-control">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-sm-6">
                                     <div class="">
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Tên</label>
@@ -71,14 +74,14 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                             <label class="col-sm-2 control-label">Bắt đầu</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" name="thoi_gian_bat_dau" class="form-control" placeholder="Thời gian bắt đầu">
+                                                <input type="text" name="thoi_gian_bat_dau" class="form-control datepicker" autocomplete="off" placeholder="Thời gian bắt đầu">
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="col-sm-2 control-label">Kêt thúc</label>
 
                                             <div class="col-sm-10">
-                                                <input type="text" name="thoi_gian_ket_thuc" class="form-control" placeholder="Thời gian kết thúc">
+                                                <input type="text" name="thoi_gian_ket_thuc" class="form-control datepicker" autocomplete="off" placeholder="Thời gian kết thúc">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -174,6 +177,7 @@ if($_POST){
             thoi_gian_bat_dau=:thoi_gian_bat_dau,
             thoi_gian_ket_thuc=:thoi_gian_ket_thuc,
             danh_muc_id=:danh_muc_id,
+            minh_chung=:minh_chung,
             trang_thai=:trang_thai,
             ngay_tao=:ngay_tao
             " ;
@@ -184,15 +188,23 @@ if($_POST){
         // Hàm tạo chuỗi id unique(duy nhất)
         $id_nghien_cuu = generateId(8, 'nghien_cuu', $con);
 
-
         // Các giá trị được lấy từ các trường nhập trên form
         $ten = htmlspecialchars(strip_tags($_POST['ten']));
         $chi_tiet = htmlspecialchars(strip_tags($_POST['chi_tiet']));
-        $thoi_gian_bat_dau = (int)htmlspecialchars(strip_tags($_POST['thoi_gian_bat_dau']));
-        $thoi_gian_ket_thuc = (int)htmlspecialchars(strip_tags($_POST['thoi_gian_ket_thuc']));
+        $thoi_gian_bat_dau = htmlspecialchars(strip_tags($_POST['thoi_gian_bat_dau']));
+        $thoi_gian_bat_dau = strtotime($thoi_gian_bat_dau);
+        $thoi_gian_ket_thuc = htmlspecialchars(strip_tags($_POST['thoi_gian_ket_thuc']));
+        $thoi_gian_ket_thuc = strtotime($thoi_gian_ket_thuc);
         $danh_muc_id = htmlspecialchars(strip_tags($_POST['danh_muc_id']));
         $trang_thai = 1;
         $ngay_tao = time();
+
+        //  Lấy trường “file” minh chứng mới
+        $minh_chung=!empty($_FILES["minh_chung"]["name"])? sha1_file($_FILES['minh_chung']['tmp_name']) . "-" . basename($_FILES["minh_chung"]["name"]): "";
+        $minh_chung=htmlspecialchars(strip_tags($minh_chung));
+
+//        var_dump($_POST);
+//        die();
 
         // truyền các tham số cho câu truy vấn
         $stmt->bindParam(':id', $id_nghien_cuu);
@@ -203,6 +215,53 @@ if($_POST){
         $stmt->bindParam(':danh_muc_id', $danh_muc_id);
         $stmt->bindParam(':trang_thai', $trang_thai);
         $stmt->bindParam(':ngay_tao', $ngay_tao);
+        $stmt->bindParam(':minh_chung', $minh_chung);
+
+        // nếu ảnh không rỗng thì tiến hành upload
+        if($minh_chung){
+
+            // sha1_file() là hàm dùng tạo tên file ảnh là duy nhất
+            $target_directory = "../../uploads/minh-chung/";
+            $target_file = $target_directory . $minh_chung;
+            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
+
+            // Thông báo lỗi nếu upload lỗi
+            $file_upload_error_messages="";
+
+            // các định dạng file ảnh được phép upload
+            $allowed_file_types=array("jpg", "jpeg", "png", "gif", "doc", "docx", "pdf", 'pptx');
+            if(!in_array($file_type, $allowed_file_types)){
+                $file_upload_error_messages.="Chỉ cho phép upload các định dạng JPG, JPEG, PNG, GIF, DOC, PDF, PPTX";
+            }
+
+            // đảm bảo file ảnh khi sumit không quá 1 MB
+            if($_FILES['minh_chung']['size'] > (1024000)){
+                $file_upload_error_messages.="Kích thước file nên dưới 1 MB.";
+            }
+
+            // đảm bảo thư mục “upload” được tồn tại
+            // nếu chưa tồn tại, tiến hành tạo mới
+            if(!is_dir($target_directory)){
+                mkdir($target_directory, 0777, true);
+            }
+
+            // nếu $file_upload_error_messages là rỗng (không có lỗi)
+            if(empty($file_upload_error_messages)){
+                if(move_uploaded_file($_FILES["minh_chung"]["tmp_name"], $target_file)){
+                    // file ảnh đã được upload
+                }else{
+//                    $file_upload_error_messages = "Không upload được ảnh.";
+//                    session_set('error', $file_upload_error_messages);
+                    throw new PDOException($file_upload_error_messages);
+                }
+            }
+            // nếu $file_upload_error_messages là không rỗng (có vấn đề xảy ra)
+            else{
+                // hiển thị cụ thể loại lỗi
+//                session_set('error', $file_upload_error_messages);
+                throw new PDOException($file_upload_error_messages);
+            }
+        }
 
         $stmt->execute();
 
@@ -257,7 +316,9 @@ if($_POST){
     catch(PDOException $exception){
         // Khi có lỗi sảy ra , tất cả dữ liệu sẽ không được thêm vào bảng
         $con->rollBack();
-        die('ERROR: ' . $exception->getMessage());
+//        die('ERROR: ' . $exception->getMessage());
+        session_set('error', $exception->getMessage());
+        echo '<script type="text/javascript">location.href = "them.php"</script>';
     }
 }
 ?>

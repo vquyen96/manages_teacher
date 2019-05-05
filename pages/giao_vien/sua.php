@@ -17,10 +17,19 @@ try {
     // lưu dòng dữ liệu lấy được vào một biến $row
     $giao_vien = $stmt->fetch(PDO::FETCH_ASSOC);
     // điền lần lượt giá trị vào form thông qua các biến
+    $tai_khoan = null;
+    if ($giao_vien['tai_khoan_id'] != null) {
+        $tai_khoan_query = "SELECT * FROM tai_khoan WHERE id = ? LIMIT 0,1";
+        $tai_khoan_stmt = $con->prepare( $tai_khoan_query );
+        $tai_khoan_stmt->bindParam(1, $giao_vien['tai_khoan_id']);
+        $tai_khoan_stmt->execute();
+        $tai_khoan = $tai_khoan_stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
 // hiển thị lỗi
 catch(PDOException $exception){
-    die('LỖI: ' . $exception->getMessage());
+    session_set('error', $exception->getMessage());
+    echo '<script type="text/javascript">location.href = "danhsach.php";</script>';
 }
 
 
@@ -62,13 +71,45 @@ $don_vi_stmt->execute();
                     <div class="box-header">
                         <h3 class="box-title">Chỉnh sửa giáo viên</h3>
                     </div>
-                    <form class="form-horizontal"action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}");?>" method="post">
+                    <form class="form-horizontal"action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}");?>" method="post" enctype="multipart/form-data">
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <div class="thumbnail">
-                                        <img src="../../dist/img/photo3.jpg" alt="">
+                                    <div class="btn-tai-khoan btn btn-primary text-center mb-3" style="width: 100%">
+                                        <i class="fas fa-user"></i>
+                                        Tài khoản
+                                    </div>
+                                    <div class="form-tai-khoan <?php if (!isset($tai_khoan) || $tai_khoan == null) echo 'slide-up';?>" >
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label ws-nowrap">Tên đăng nhập</label>
+
+                                            <div class="col-sm-8">
+                                                <input type="text" name="ten_dang_nhap" class="form-control" placeholder="Tên đăng nhập" value="<?php echo $tai_khoan['ten_dang_nhap']?>">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label ws-nowrap">Mật khẩu</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" name="mat_khau" class="form-control" placeholder="Mật khẩu">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label ws-nowrap">Nhập lại mật khẩu</label>
+                                            <div class="col-sm-8">
+                                                <input type="password" name="re_mat_khau" class="form-control" placeholder="Nhập lại mật khẩu">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label ws-nowrap">Hình ảnh</label>
+                                            <div class="col-sm-8">
+                                                <div>
+                                                    <input id="img" type="file" name="hinh_anh" class="hidden" onchange="changeImg(this)">
+                                                    <img style="cursor: pointer; width: 100%;" class="img-file thumbnail" src="<?php if ($tai_khoan['hinh_anh'] != null && $tai_khoan['hinh_anh'] != "") echo '../../uploads/hinh-anh/'.$tai_khoan['hinh_anh']; else echo '../../dist/img/user2.jpg';  ?>">
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-xs-6">
@@ -143,6 +184,24 @@ $don_vi_stmt->execute();
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="inputEmail3" class="col-sm-2 control-label" style="white-space: nowrap">Cấp bậc</label>
+
+                                            <div class="col-sm-10">
+                                                <select name="cap_bac" class="form-control">
+                                                    <option value="" selected disabled>Chọn cấp bậc</option>
+                                                    <?php
+                                                    foreach ($ranks as $index => $rank) {
+                                                        if ($giao_vien['cap_bac'] == $index) {
+                                                            echo '<option value="'.$index.'" selected >'.$rank.'</option>';
+                                                        } else {
+                                                            echo '<option value="'.$index.'" >'.$rank.'</option>';
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -168,6 +227,120 @@ $don_vi_stmt->execute();
 include_once('../widgets/footer.php');
 if($_POST){
     try{
+        $con->beginTransaction();
+
+        // Các giá trị được lấy từ các trường nhập trên form
+        $ten_dang_nhap = htmlspecialchars(strip_tags($_POST['ten_dang_nhap']));
+        $mat_khau = htmlspecialchars(strip_tags($_POST['mat_khau']));
+
+
+        $ten = htmlspecialchars(strip_tags($_POST['ten']));
+        $email = htmlspecialchars(strip_tags($_POST['email']));
+        $don_vi_id = htmlspecialchars(strip_tags($_POST['don_vi_id']));
+        $chuc_vu_id = htmlspecialchars(strip_tags($_POST['chuc_vu_id']));
+        $gioi_tinh = htmlspecialchars(strip_tags($_POST['gioi_tinh']));
+        $cap_bac = htmlspecialchars(strip_tags($_POST['cap_bac']));
+        $ngay_cap_nhat = time();
+
+        if ($ten_dang_nhap != null) {
+
+            // Chưa có tài khoản => tạo tài khoản
+            if ($tai_khoan == null) {
+                if (isValidUsername($ten_dang_nhap, null, $con)) {
+                    throw new PDOException("Tên đăng nhập đã tòn tại");
+                }
+                $query_tai_khoan = "INSERT INTO tai_khoan SET 
+                    id=:id, 
+                    ten_dang_nhap=:ten_dang_nhap, 
+                    ho_ten=:ho_ten, 
+                    hinh_anh=:hinh_anh, 
+                    mat_khau=:mat_khau, 
+                    muoi=:muoi, 
+                    phan_quyen=:phan_quyen, 
+                    trang_thai=:trang_thai, 
+                    ngay_tao=:ngay_tao
+                ";
+                $stmt_tai_khoan = $con->prepare($query_tai_khoan);
+
+                if ($mat_khau == null) {
+                    throw new PDOException("Mật khẩu không được rỗng");
+                }
+                $id_tai_khoan = generateId(8, 'tai_khoan', $con);
+                $muoi = generateRandomString(5);
+                $mat_khau = md5($mat_khau.$muoi);
+
+                //  Lấy trường “file” hình ảnh mới và lưu
+                $hinh_anh = saveImage($_FILES["hinh_anh"], '../../uploads/hinh-anh/');
+                if ($hinh_anh == false && $hinh_anh != null){
+                    echo '<script type="text/javascript">location.href = "them.php"</script>';
+                }
+
+                $stmt_tai_khoan->bindParam(':id', $id_tai_khoan);
+                $stmt_tai_khoan->bindParam(':ten_dang_nhap', $ten_dang_nhap);
+                $stmt_tai_khoan->bindParam(':ho_ten', $ten);
+                $stmt_tai_khoan->bindParam(':hinh_anh', $hinh_anh);
+                $stmt_tai_khoan->bindParam(':mat_khau', $mat_khau);
+                $stmt_tai_khoan->bindParam(':muoi', $muoi);
+                $stmt_tai_khoan->bindParam(':phan_quyen', $phan_quyen);
+                $stmt_tai_khoan->bindParam(':trang_thai', $trang_thai);
+                $stmt_tai_khoan->bindParam(':ngay_tao', $ngay_tao);
+                $tai_khoan['id'] = $id_tai_khoan;
+
+                if (!$stmt_tai_khoan->execute()) throw new PDOException("Thêm tài khoản bị lỗi");
+            }
+            // Đã có tài khoản => cập nhật tài khoản
+            else {
+                if (isValidUsername($ten_dang_nhap,  $tai_khoan['id'], $con)) {
+                    throw new PDOException("Tên đăng nhập đã tòn tại");
+                }
+                $query_tai_khoan = "UPDATE tai_khoan SET 
+                    ten_dang_nhap=:ten_dang_nhap, 
+                    ho_ten=:ho_ten, 
+                    hinh_anh=:hinh_anh, 
+                    mat_khau=:mat_khau, 
+                    muoi=:muoi, 
+                    ngay_cap_nhat=:ngay_cap_nhat
+                    WHERE id=:id
+                ";
+                $stmt_tai_khoan = $con->prepare($query_tai_khoan);
+
+//                $id_tai_khoan = generateId(8, 'tai_khoan', $con);
+
+                if ($mat_khau != null) {
+                    $muoi = generateRandomString(5);
+                    $mat_khau = md5($mat_khau.$muoi);
+                }
+
+                //  Lấy trường “file” hình ảnh mới và lưu
+                $hinh_anh = saveImage($_FILES["hinh_anh"], '../../uploads/hinh-anh/');
+                if ($hinh_anh == false && $hinh_anh != null){
+                    echo '<script type="text/javascript">location.href = "them.php"</script>';
+                }
+                $stmt_tai_khoan->bindParam(':id', $tai_khoan['id']);
+                $stmt_tai_khoan->bindParam(':ten_dang_nhap', $ten_dang_nhap);
+                $stmt_tai_khoan->bindParam(':ho_ten', $ten);
+                if ($hinh_anh) {
+                    $stmt_tai_khoan->bindParam(':hinh_anh', $hinh_anh);
+                }
+                else {
+                    $stmt_tai_khoan->bindParam(':hinh_anh', $tai_khoan['hinh_anh']);
+                }
+
+                if ($mat_khau != null) {
+                    $stmt_tai_khoan->bindParam(':mat_khau', $mat_khau);
+                    $stmt_tai_khoan->bindParam(':muoi', $muoi);
+                } else {
+                    $stmt_tai_khoan->bindParam(':mat_khau', $tai_khoan['mat_khau']);
+                    $stmt_tai_khoan->bindParam(':muoi', $tai_khoan['muoi']);
+                }
+                $stmt_tai_khoan->bindParam(':ngay_cap_nhat', $ngay_cap_nhat);
+
+
+                if (!$stmt_tai_khoan->execute()) throw new PDOException("Cập nhật tài khoản bị lỗi");
+            }
+        }
+
+
         // truy vấn INSERT
         $query = "UPDATE giao_vien SET 
             ten=:ten, 
@@ -175,6 +348,8 @@ if($_POST){
             don_vi_id=:don_vi_id, 
             chuc_vu_id=:chuc_vu_id, 
             gioi_tinh=:gioi_tinh,
+            cap_bac=:cap_bac,
+            tai_khoan_id=:tai_khoan_id,
             ngay_cap_nhat=:ngay_cap_nhat
             WHERE id=:id 
         ";
@@ -182,13 +357,7 @@ if($_POST){
         // Chuẩn bị cho thực thi truy vấn
         $stmt = $con->prepare($query);
 
-        // Các giá trị được lấy từ các trường nhập trên form
-        $ten = htmlspecialchars(strip_tags($_POST['ten']));
-        $email = htmlspecialchars(strip_tags($_POST['email']));
-        $don_vi_id = htmlspecialchars(strip_tags($_POST['don_vi_id']));
-        $chuc_vu_id = htmlspecialchars(strip_tags($_POST['chuc_vu_id']));
-        $gioi_tinh = htmlspecialchars(strip_tags($_POST['gioi_tinh']));
-        $ngay_cap_nhat = time();
+
 
         // truyền các tham số cho câu truy vấn
         $stmt->bindParam(':ten', $ten);
@@ -196,24 +365,23 @@ if($_POST){
         $stmt->bindParam(':don_vi_id', $don_vi_id);
         $stmt->bindParam(':chuc_vu_id', $chuc_vu_id);
         $stmt->bindParam(':gioi_tinh', $gioi_tinh);
+        $stmt->bindParam(':cap_bac', $cap_bac);
+        $stmt->bindParam(':tai_khoan_id', $tai_khoan['id']);
         $stmt->bindParam(':ngay_cap_nhat', $ngay_cap_nhat);
         $stmt->bindParam(':id', $id);
 
         // Thực thi truy vấn
-        if($stmt->execute()){
-            echo '<script type="text/javascript">location.href = "danhsach.php";</script>';
-            if (headers_sent()) {
-                die("Chuyển trang bị lỗi. Hãy ấn vào <a href='don_vi.php'>Here</a>");
-            }
-            else{
-                header('Location: danh_sach.php?create=success');
-            }
-        }else{
-            header('Location: danh_sach.php?create=error');
+        if(!$stmt->execute()){
+            throw new PDOException("Cập nhật giáo viên bị lỗi");
         }
+
+        $con->commit();
+        echo '<script type="text/javascript">location.href = "sua.php?id='.$id.'";</script>';
     }// hiển thị lỗi
     catch(PDOException $exception){
-        die('ERROR: ' . $exception->getMessage());
+        $con->rollBack();
+        session_set('error', $exception->getMessage());
+        echo '<script type="text/javascript">location.href = "sua.php?id='.$id.'"</script>';
     }
 }
 ?>
