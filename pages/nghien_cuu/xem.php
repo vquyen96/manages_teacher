@@ -114,6 +114,13 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                         </div>
                                     </div>
                                     <div class="mb-3 row">
+                                        <label class="col-sm-2 control-label">Nghiệm thu</label>
+
+                                        <div class="col-sm-10">
+                                            <?php echo date('d/m/Y', $nghien_cuu['thoi_gian_nghiem_thu']);?>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3 row">
                                         <label class="col-sm-2 control-label">Tổng giờ</label>
 
                                         <div class="col-sm-10">

@@ -9,7 +9,7 @@
 }
 .alert-flash{
     position: fixed;
-    top: 30px;
+    top: 130px;
     right: 10px;
     transition: 2s;
     z-index: 12345;

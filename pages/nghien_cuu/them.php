@@ -85,6 +85,13 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                             </div>
                                         </div>
                                         <div class="form-group">
+                                            <label class="col-sm-2 control-label">Nghiệm thu</label>
+
+                                            <div class="col-sm-10">
+                                                <input type="text" name="thoi_gian_nghiem_thu" class="form-control datepicker" autocomplete="off" placeholder="Thời gian nghiệm thu">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
                                             <label class="col-sm-2 control-label" style="white-space: nowrap">Danh mục</label>
 
                                             <div class="col-sm-10">
@@ -176,6 +183,7 @@ if($_POST){
             chi_tiet=:chi_tiet,
             thoi_gian_bat_dau=:thoi_gian_bat_dau,
             thoi_gian_ket_thuc=:thoi_gian_ket_thuc,
+            thoi_gian_nghiem_thu=:thoi_gian_nghiem_thu,
             danh_muc_id=:danh_muc_id,
             minh_chung=:minh_chung,
             trang_thai=:trang_thai,
@@ -195,16 +203,19 @@ if($_POST){
         $thoi_gian_bat_dau = strtotime($thoi_gian_bat_dau);
         $thoi_gian_ket_thuc = htmlspecialchars(strip_tags($_POST['thoi_gian_ket_thuc']));
         $thoi_gian_ket_thuc = strtotime($thoi_gian_ket_thuc);
+        $thoi_gian_nghiem_thu = htmlspecialchars(strip_tags($_POST['thoi_gian_nghiem_thu']));
+        $thoi_gian_nghiem_thu = strtotime($thoi_gian_nghiem_thu);
+
         $danh_muc_id = htmlspecialchars(strip_tags($_POST['danh_muc_id']));
         $trang_thai = 1;
         $ngay_tao = time();
 
-        //  Lấy trường “file” minh chứng mới
-        $minh_chung=!empty($_FILES["minh_chung"]["name"])? sha1_file($_FILES['minh_chung']['tmp_name']) . "-" . basename($_FILES["minh_chung"]["name"]): "";
-        $minh_chung=htmlspecialchars(strip_tags($minh_chung));
 
-//        var_dump($_POST);
-//        die();
+        // Lưu file minh chung
+        $minh_chung = saveImage($_FILES["minh_chung"], '../../uploads/minh-chung/');
+        if ($minh_chung == false && $minh_chung != null){
+            echo '<script type="text/javascript">location.href = "them.php"</script>';
+        }
 
         // truyền các tham số cho câu truy vấn
         $stmt->bindParam(':id', $id_nghien_cuu);
@@ -212,56 +223,11 @@ if($_POST){
         $stmt->bindParam(':chi_tiet', $chi_tiet);
         $stmt->bindParam(':thoi_gian_bat_dau', $thoi_gian_bat_dau);
         $stmt->bindParam(':thoi_gian_ket_thuc', $thoi_gian_ket_thuc);
+        $stmt->bindParam(':thoi_gian_nghiem_thu', $thoi_gian_nghiem_thu);
         $stmt->bindParam(':danh_muc_id', $danh_muc_id);
         $stmt->bindParam(':trang_thai', $trang_thai);
         $stmt->bindParam(':ngay_tao', $ngay_tao);
         $stmt->bindParam(':minh_chung', $minh_chung);
-
-        // nếu ảnh không rỗng thì tiến hành upload
-        if($minh_chung){
-
-            // sha1_file() là hàm dùng tạo tên file ảnh là duy nhất
-            $target_directory = "../../uploads/minh-chung/";
-            $target_file = $target_directory . $minh_chung;
-            $file_type = pathinfo($target_file, PATHINFO_EXTENSION);
-
-            // Thông báo lỗi nếu upload lỗi
-            $file_upload_error_messages="";
-
-            // các định dạng file ảnh được phép upload
-            $allowed_file_types=array("jpg", "jpeg", "png", "gif", "doc", "docx", "pdf", 'pptx');
-            if(!in_array($file_type, $allowed_file_types)){
-                $file_upload_error_messages.="Chỉ cho phép upload các định dạng JPG, JPEG, PNG, GIF, DOC, PDF, PPTX";
-            }
-
-            // đảm bảo file ảnh khi sumit không quá 1 MB
-            if($_FILES['minh_chung']['size'] > (1024000)){
-                $file_upload_error_messages.="Kích thước file nên dưới 1 MB.";
-            }
-
-            // đảm bảo thư mục “upload” được tồn tại
-            // nếu chưa tồn tại, tiến hành tạo mới
-            if(!is_dir($target_directory)){
-                mkdir($target_directory, 0777, true);
-            }
-
-            // nếu $file_upload_error_messages là rỗng (không có lỗi)
-            if(empty($file_upload_error_messages)){
-                if(move_uploaded_file($_FILES["minh_chung"]["tmp_name"], $target_file)){
-                    // file ảnh đã được upload
-                }else{
-//                    $file_upload_error_messages = "Không upload được ảnh.";
-//                    session_set('error', $file_upload_error_messages);
-                    throw new PDOException($file_upload_error_messages);
-                }
-            }
-            // nếu $file_upload_error_messages là không rỗng (có vấn đề xảy ra)
-            else{
-                // hiển thị cụ thể loại lỗi
-//                session_set('error', $file_upload_error_messages);
-                throw new PDOException($file_upload_error_messages);
-            }
-        }
 
         $stmt->execute();
 
@@ -271,6 +237,7 @@ if($_POST){
             $giao_vien_vai_tro = $_POST['giao_vien_vai_tro'];
 
             for ($i = 0; $i < count($giao_vien_id); $i++) {
+
                 $query_giao_vien_nghien_cuu = "INSERT INTO giao_vien_nghien_cuu SET
                     giao_vien_id=:giao_vien_id,
                     nghien_cuu_id=:nghien_cuu_id,
@@ -283,7 +250,9 @@ if($_POST){
                 $stmt_gvnc->bindParam(':nghien_cuu_id', $id_nghien_cuu);
                 $stmt_gvnc->bindParam(':thoi_gian', $giao_vien_thoi_gian[$i]);
                 $stmt_gvnc->bindParam(':vai_tro', $giao_vien_vai_tro[$i]);
-                $stmt_gvnc->execute();
+
+                $stmt_gvnc->execute() ? '' : session_set('error', 'Lỗi thêm mới giáo viên nghiên cứu');
+                cap_nhat_thoi_gian_gvnc($giao_vien_id[$i], $con);
             }
         }
 
@@ -305,9 +274,23 @@ if($_POST){
                 $stmt_gvnc->bindParam(':nghien_cuu_id', $id_nghien_cuu);
                 $stmt_gvnc->bindParam(':thoi_gian', $sinh_vien_thoi_gian[$i]);
                 $stmt_gvnc->bindParam(':vai_tro', $sinh_vien_vai_tro[$i]);
-                $stmt_gvnc->execute();
+
+                !$stmt_gvnc->execute() ? session_set('error', 'Lỗi thêm sinh viên nghiên cứu') : '';
+
+                cap_nhat_thoi_gian_svnc($sinh_vien_id[$i], $con);
             }
         }
+
+        $thoi_gian_gvnc = ((int)tong_thoi_gian_gvnc($id, $con)['SUM(thoi_gian)']) ;
+        $thoi_gian_svnc = ((int)tong_thoi_gian_svnc($id, $con)['SUM(thoi_gian)']) ;
+        $tong_thoi_gian = $thoi_gian_gvnc + $thoi_gian_svnc;
+
+        $query = "UPDATE ".$dir." SET tong_thoi_gian=:tong_thoi_gian WEHRE id=:id";
+        $stmt = $con->prepare($query);
+        $stmt->bindParam(':tong_thoi_gian', $tong_thoi_gian);
+        $stmt->bindParam(':id', $id_nghien_cuu);
+        $stmt->execute();
+
 
         // Không có lỗi sảy ra trong quá trình thêm vào bảng thì tất cả sẽ được lưu lại
         $con->commit();
@@ -316,6 +299,7 @@ if($_POST){
     catch(PDOException $exception){
         // Khi có lỗi sảy ra , tất cả dữ liệu sẽ không được thêm vào bảng
         $con->rollBack();
+        dd('23');
 //        die('ERROR: ' . $exception->getMessage());
         session_set('error', $exception->getMessage());
         echo '<script type="text/javascript">location.href = "them.php"</script>';

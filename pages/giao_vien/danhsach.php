@@ -3,7 +3,7 @@
     include_once('../../libs/paginate.php') ;
     $dir = basename(__DIR__) ;
     // lấy dữ liệu cho trang hiện tại
-    $query = "SELECT * FROM {$dir} ORDER BY id DESC";
+    $query = "SELECT * FROM {$dir} WHERE trang_thai=1 ORDER BY id DESC";
     $stmt = $con->prepare($query);
     $stmt->execute();
 

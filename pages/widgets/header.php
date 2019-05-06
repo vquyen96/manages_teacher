@@ -256,10 +256,16 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header"></li>
-                <li class="<?php if ($folder == 'dashboard') echo 'active';?>">
-                    <a href="../../index.php">
+                <li class="<?php if ($folder == 'dashboard') echo 'active';?> treeview" >
+                    <a href="#">
                         <i class="fas fa-tachometer-alt"></i> <span>Thống kê</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li class="<?php if ($file == 'giao_vien.php') echo 'active';?>"><a href="../dashboard/giao_vien.php"><i class="far fa-circle"></i>Giáo viên</a></li>
+                    </ul>
                 </li>
                 <li class="<?php if ($folder == 'giao_vien') echo 'active';?> treeview">
                     <a href="#">
