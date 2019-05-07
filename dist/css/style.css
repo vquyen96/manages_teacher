@@ -7,6 +7,9 @@
 .d-flex{
     display: flex;
 }
+.justify-content-between{
+    justify-content: space-between;
+}
 .alert-flash{
     position: fixed;
     top: 130px;
@@ -14,4 +17,11 @@
     transition: 2s;
     z-index: 12345;
     box-shadow: 2px 2px 3px 1px #0009;
+}
+
+.align-items-center{
+    align-items: center;
+}
+.flex-1 {
+    flex: 1;
 }

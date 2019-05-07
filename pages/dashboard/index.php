@@ -1,522 +1,491 @@
-<?php include_once('../widgets/header.php') ?>
+<?php
+include_once('../widgets/header.php') ;
+// lấy dữ liệu cho trang hiện tại
+
+
+
+$query = "SELECT * FROM giao_vien WHERE trang_thai=1";
+if (isset($_GET['donvi']) && $_GET['donvi'] != 'all') {
+    $para_donvi = $_GET['donvi'];
+    $query .= "&& don_vi_id=".$para_donvi;
+}
+$query .= " ORDER BY ngay_tao DESC";
+$stmt = $con->prepare($query);
+$stmt->execute();
+
+
+// Lấy năm kết thúc
+if (isset($_GET['yearend'])) {
+    $yearend = (int)$_GET['yearend'];
+}
+else{
+    $yearend = (int)date('Y', time());
+}
+
+// Lấy năm bắt đầu
+if (isset($_GET['yearstart'])) {
+    $yearstart = (int)$_GET['yearstart'];
+}
+else {
+    $yearstart = (int)$yearend - 5;
+}
+
+$allGiaoVien = [];
+$giaoVienDonVi = [];
+
+$allNghienCuu = [];
+$nghienCuuDungHan = [];
+
+for ($i = $yearstart; $i <= $yearend; $i++) {
+    $timeStart = strtotime('00:00 01-01-'.$i);
+    $timeEnd = strtotime('23:59 31-12-'.$i);
+    $allNghienCuu[(string)$i." "] = countNghienCuuByTime($timeStart, $timeEnd, $con);
+    $nghienCuuDungHan[(string)$i." "] = countNghienCuuDungHanByTime($timeStart, $timeEnd, $con);
+    $nghien_cuu_ids = getListNghienCuuIdByTime($timeStart, $timeEnd, $con);
+    $giao_vien_ids = getGiaoVienIdByNghienCuu($nghien_cuu_ids, $con);
+    $giaoVienDonVi[$i] = countGiaoVienByGiaoVienId($giao_vien_ids, $con);
+
+    $count_giao_vien = countGiaoVienByNghienCuu($nghien_cuu_ids, $con);
+    $allGiaoVien[(string)$i." "] = $count_giao_vien;
+}
+
+function getListNghienCuuIdByTime($timeStart, $timeEnd, $con) {
+
+    $queryNghienCuu = "SELECT id FROM nghien_cuu WHERE trang_thai = 1";
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu >= ".$timeStart;
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu <= ".$timeEnd;
+    $queryNghienCuu .= " ORDER BY ngay_tao DESC";
+    $stmtNghienCuu = $con->prepare($queryNghienCuu);
+    $stmtNghienCuu->execute();
+    $nghien_cuu_ids = $stmtNghienCuu->fetchAll(PDO::FETCH_ASSOC);
+    $nghien_cuu_ids = array_column($nghien_cuu_ids, 'id');
+
+    return $nghien_cuu_ids;
+}
+
+function getGiaoVienIdByNghienCuu($nghien_cuu_ids, $con){
+    $nghien_cuu_ids = implode('", "',$nghien_cuu_ids) ;
+    $queryNghienCuuGiaoVien = "SELECT giao_vien_id FROM giao_vien_nghien_cuu WHERE nghien_cuu_id IN (\"";
+    $queryNghienCuuGiaoVien .= $nghien_cuu_ids."\")";
+    $stmtNghienCuuGiaoVien = $con->prepare($queryNghienCuuGiaoVien);
+    $stmtNghienCuuGiaoVien->execute();
+    $giao_vien_ids = $stmtNghienCuuGiaoVien->fetchAll(PDO::FETCH_ASSOC);
+    return array_column($giao_vien_ids, 'giao_vien_id');
+}
+
+function countGiaoVienByNghienCuu($nghien_cuu_ids, $con){
+    $nghien_cuu_ids = implode('", "',$nghien_cuu_ids) ;
+    $queryNghienCuuGiaoVien = "SELECT * FROM giao_vien_nghien_cuu WHERE nghien_cuu_id IN (\"";
+    $queryNghienCuuGiaoVien .= $nghien_cuu_ids."\")";
+    $stmtNghienCuuGiaoVien = $con->prepare($queryNghienCuuGiaoVien);
+    $stmtNghienCuuGiaoVien->execute();
+    $giao_vien_ids = [];
+    while ($rowGiaoVien = $stmtNghienCuuGiaoVien->fetch(PDO::FETCH_ASSOC)){
+        $giao_vien_ids[$rowGiaoVien['id']] = $rowGiaoVien['giao_vien_id'];
+    }
+    return count($giao_vien_ids);
+}
+
+function countGiaoVienByGiaoVienId($giao_vien_ids, $con) {
+    $giao_vien_ids = implode('", "',$giao_vien_ids) ;
+    $queryGiaoVien = "SELECT * FROM giao_vien WHERE trang_thai=1";
+    $queryGiaoVien .= " && id IN (\"";
+    $queryGiaoVien .= $giao_vien_ids."\")";
+    if (isset($_GET['donvi']) && $_GET['donvi'] != 'all') {
+        $para_donvi = $_GET['donvi'];
+        $queryGiaoVien .= " && don_vi_id=".$para_donvi;
+    }
+    $queryGiaoVien .= " ORDER BY ngay_tao DESC";
+    $stmtGiaoVien = $con->prepare($queryGiaoVien);
+    $stmtGiaoVien->execute();
+
+    $giao_viens= $stmtGiaoVien->fetchAll(PDO::FETCH_ASSOC);
+    return count($giao_viens);
+}
+
+function countNghienCuuDungHanByTime($timeStart, $timeEnd, $con) {
+
+    $queryNghienCuu = "SELECT id FROM nghien_cuu WHERE trang_thai = 1";
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu >= ".$timeStart;
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu <= ".$timeEnd;
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu <= thoi_gian_ket_thuc";
+    $stmtNghienCuu = $con->prepare($queryNghienCuu);
+    $stmtNghienCuu->execute();
+    $nghien_cuu_ids = $stmtNghienCuu->fetchAll(PDO::FETCH_ASSOC);
+    return count($nghien_cuu_ids);
+}
+
+function countNghienCuuByTime($timeStart, $timeEnd, $con) {
+
+    $queryNghienCuu = "SELECT id FROM nghien_cuu WHERE trang_thai = 1";
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu >= ".$timeStart;
+    $queryNghienCuu .= "&& thoi_gian_nghiem_thu <= ".$timeEnd;
+    $stmtNghienCuu = $con->prepare($queryNghienCuu);
+    $stmtNghienCuu->execute();
+    $nghien_cuu_ids = $stmtNghienCuu->fetchAll(PDO::FETCH_ASSOC);
+    return count($nghien_cuu_ids);
+}
+
+
+
+//    $queryNghienCuu = "SELECT id FROM nghien_cuu WHERE trang_thai = 1";
+//    if (isset($_GET['year'])) {
+//        $year = $_GET['year'];
+//        $startYear = strtotime('00:00 01-01-'.$year);
+//        $endYear = strtotime('23:59 31-12-'.$year);
+//        $queryNghienCuu .= "&& thoi_gian_nghiem_thu >= ".$startYear;
+//        $queryNghienCuu .= "&& thoi_gian_nghiem_thu <= ".$endYear;
+//    }
+//    $queryNghienCuu .= " ORDER BY ngay_tao DESC";
+//    $stmtNghienCuu = $con->prepare($queryNghienCuu);
+//    $stmtNghienCuu->execute();
+//    $nghien_cuu_ids = [];
+//    $nghien_cuu_ids = $stmtNghienCuu->fetchAll(PDO::FETCH_ASSOC);
+//
+//    $nghien_cuu_ids = array_column($nghien_cuu_ids, 'id');
+//    $nghien_cuu_ids = implode('", "',$nghien_cuu_ids) ;
+
+
+//    $queryNghienCuuGiaoVien = "SELECT giao_vien_id FROM giao_vien_nghien_cuu WHERE nghien_cuu_id IN (\"";
+//    $queryNghienCuuGiaoVien .= $nghien_cuu_ids."\")";
+//    $stmtNghienCuuGiaoVien = $con->prepare($queryNghienCuuGiaoVien);
+//    $stmtNghienCuuGiaoVien->execute();
+//    $giao_vien_ids = $stmtNghienCuuGiaoVien->fetchAll(PDO::FETCH_ASSOC);
+//
+//    $giao_vien_ids = array_column($giao_vien_ids, 'giao_vien_id');
+//    $giao_vien_ids = implode('", "',$giao_vien_ids) ;
+//
+//    $queryGiaoVien = "SELECT * FROM giao_vien WHERE trang_thai=1";
+//    $queryGiaoVien .= " && id IN (\"";
+//    $queryGiaoVien .= $giao_vien_ids."\")";
+//    if (isset($_GET['donvi'])) {
+//        $para_donvi = $_GET['donvi'];
+//        $queryGiaoVien .= " && don_vi_id=".$para_donvi;
+//    }
+//    $queryGiaoVien .= " ORDER BY ngay_tao DESC";
+//    $stmtGiaoVien = $con->prepare($queryGiaoVien);
+//    $stmtGiaoVien->execute();
+//
+//    $giao_viens= $stmtGiaoVien->fetchAll(PDO::FETCH_ASSOC);
+//    dd($giao_viens);
+
+// Lấy map chức danh
+$queryChucDanh = "SELECT * FROM chuc_danh ";
+$stmtChucDanh = $con->prepare($queryChucDanh);
+$stmtChucDanh->execute();
+$chucdanh = [];
+$chucdanh_thoigian = [];
+while ($rowChucDanh = $stmtChucDanh->fetch(PDO::FETCH_ASSOC)){
+    $chucdanh[$rowChucDanh['id']] = $rowChucDanh['ten'];
+    $chucdanh_thoigian[$rowChucDanh['id']] = $rowChucDanh['thoi_gian_dinh_muc'];
+}
+
+// Lấy map đơn vị
+$queryDonVi = "SELECT * FROM don_vi_cong_tac ";
+$stmtDonVi = $con->prepare($queryDonVi);
+$stmtDonVi->execute();
+$donvi = [];
+while ($rowDonVi = $stmtDonVi->fetch(PDO::FETCH_ASSOC)){
+    $donvi[$rowDonVi['id']] = $rowDonVi['ten'];
+}
+?>
 
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            Dashboard
-            <small>Control panel</small>
+            Thống kê
+            <small>giáo viên</small>
         </h1>
         <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li class="active">Dashboard</li>
+            <li><a href="../../index.html"><i class="fa fa-dashboard"></i> Trang chủ</a></li>
+            <li><a href="#">Thống kê</a></li>
+            <li class="active">Danh sách</li>
         </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-        <!-- Small boxes (Stat box) -->
         <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-aqua">
-                    <div class="inner">
-                        <h3>150</h3>
-
-                        <p>New Orders</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                        <p>Bounce Rate</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-stats-bars"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-yellow">
-                    <div class="inner">
-                        <h3>44</h3>
-
-                        <p>User Registrations</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-person-add"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="small-box bg-red">
-                    <div class="inner">
-                        <h3>65</h3>
-
-                        <p>Unique Visitors</p>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-pie-graph"></i>
-                    </div>
-                    <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-            <!-- ./col -->
-        </div>
-        <!-- /.row -->
-        <!-- Main row -->
-        <div class="row">
-            <!-- Left col -->
-            <section class="col-lg-7 connectedSortable">
-                <!-- Custom tabs (Charts with tabs)-->
-                <div class="nav-tabs-custom">
-                    <!-- Tabs within a box -->
-                    <ul class="nav nav-tabs pull-right">
-                        <li class="active"><a href="#revenue-chart" data-toggle="tab">Area</a></li>
-                        <li><a href="#sales-chart" data-toggle="tab">Donut</a></li>
-                        <li class="pull-left header"><i class="fa fa-inbox"></i> Sales</li>
-                    </ul>
-                    <div class="tab-content no-padding">
-                        <!-- Morris chart - Sales -->
-                        <div class="chart tab-pane active" id="revenue-chart" style="position: relative; height: 300px;"></div>
-                        <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;"></div>
-                    </div>
-                </div>
-                <!-- /.nav-tabs-custom -->
-
-                <!-- Chat box -->
-                <div class="box box-success">
+            <div class="col-xs-12">
+                <!-- AREA CHART -->
+                <div class="box box-danger">
                     <div class="box-header">
-                        <i class="fa fa-comments-o"></i>
+                        <div class=" with-border d-flex justify-content-between align-items-center">
+                            <h3 class="box-title align-items-center">Số giáo viên nghiên cứu theo năm</h3>
 
-                        <h3 class="box-title">Chat</h3>
+                            <form action="" class="d-flex">
+                                <div class="input-group date margin-r-5">
+                                    <div class="input-group-addon">
+                                        <i class="fas fa-list"></i>
+                                        Đơn vị
+                                    </div>
+                                    <select name="donvi" class="form-control">
+                                        <option value="all">Tất cả</option>
+                                        <?php
+                                        foreach ($donvi as $index => $item) {
+                                            echo '<option value="'.$index.'">'.$item.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="margin-r-5 d-flex">
+                                    <div class="input-group-addon d-flex align-items-center flex-1 ">
+                                        <i class="fas fa-calendar"></i>
+                                        Năm
+                                    </div>
+                                    <input type="text" name="yearstart" class=" yearpicker" autocomplete="off" value="<?php echo $yearstart?>">
+                                    <input type="text" name="yearend" class=" yearpicker" autocomplete="off" value="<?php echo $yearend?>">
+                                </div>
+                                <div class="">
+                                    <button class="btn btn-primary">Thống kê</button>
+                                </div>
 
-                        <div class="box-tools pull-right" data-toggle="tooltip" title="Status">
-                            <div class="btn-group" data-toggle="btn-toggle">
-                                <button type="button" class="btn btn-default btn-sm active"><i class="fa fa-square text-green"></i>
-                                </button>
-                                <button type="button" class="btn btn-default btn-sm"><i class="fa fa-square text-red"></i></button>
+                            </form>
+                        </div>
+                        <div class="box-body">
+                        </div>
+
+                        <div class="chart">
+                            <canvas id="areaChart" style="height:250px"></canvas>
+                            <div class="d-flex" style="justify-content: flex-end">
+                                <div style="background-color: rgba(210, 214, 222, 1); width: 20px; height: 20px;" class="margin-r-5"></div>
+                                <div class="margin-r-5">Tổng giáo viên</div>
+                                <div style="background-color: rgba(60,141,188,0.9); width: 20px; height: 20px;" class="margin-r-5"></div>
+                                <div >Giáo viên của đơn vị</div>
                             </div>
                         </div>
-                    </div>
-                    <div class="box-body chat" id="chat-box">
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="../../dist/img/user4-128x128.jpg" alt="user image" class="online">
-
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 2:15</small>
-                                    Mike Doe
-                                </a>
-                                I would like to meet you to discuss the latest news about
-                                the arrival of the new theme. They say it is going to be one the
-                                best themes on the market
-                            </p>
-                            <div class="attachment">
-                                <h4>Attachments:</h4>
-
-                                <p class="filename">
-                                    Theme-thumbnail-image.jpg
-                                </p>
-
-                                <div class="pull-right">
-                                    <button type="button" class="btn btn-primary btn-sm btn-flat">Open</button>
-                                </div>
-                            </div>
-                            <!-- /.attachment -->
-                        </div>
-                        <!-- /.item -->
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="../../dist/img/user3-128x128.jpg" alt="user image" class="offline">
-
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:15</small>
-                                    Alexander Pierce
-                                </a>
-                                I would like to meet you to discuss the latest news about
-                                the arrival of the new theme. They say it is going to be one the
-                                best themes on the market
-                            </p>
-                        </div>
-                        <!-- /.item -->
-                        <!-- chat item -->
-                        <div class="item">
-                            <img src="../../dist/img/user2-160x160.jpg" alt="user image" class="offline">
-
-                            <p class="message">
-                                <a href="#" class="name">
-                                    <small class="text-muted pull-right"><i class="fa fa-clock-o"></i> 5:30</small>
-                                    Susan Doe
-                                </a>
-                                I would like to meet you to discuss the latest news about
-                                the arrival of the new theme. They say it is going to be one the
-                                best themes on the market
-                            </p>
-                        </div>
-                        <!-- /.item -->
-                    </div>
-                    <!-- /.chat -->
-                    <div class="box-footer">
-                        <div class="input-group">
-                            <input class="form-control" placeholder="Type message...">
-
-                            <div class="input-group-btn">
-                                <button type="button" class="btn btn-success"><i class="fa fa-plus"></i></button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.box (chat box) -->
-
-                <!-- TO DO List -->
-                <div class="box box-primary">
-                    <div class="box-header">
-                        <i class="ion ion-clipboard"></i>
-
-                        <h3 class="box-title">To Do List</h3>
-
-                        <div class="box-tools pull-right">
-                            <ul class="pagination pagination-sm inline">
-                                <li><a href="#">&laquo;</a></li>
-                                <li><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">&raquo;</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body">
-                        <!-- See dist/js/pages/dashboard.js to activate the todoList plugin -->
-                        <ul class="todo-list">
-                            <li>
-                                <!-- drag handle -->
-                                <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <!-- checkbox -->
-                                <input type="checkbox" value="">
-                                <!-- todo text -->
-                                <span class="text">Design a nice theme</span>
-                                <!-- Emphasis label -->
-                                <small class="label label-danger"><i class="fa fa-clock-o"></i> 2 mins</small>
-                                <!-- General tools such as edit or delete-->
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <input type="checkbox" value="">
-                                <span class="text">Make the theme responsive</span>
-                                <small class="label label-info"><i class="fa fa-clock-o"></i> 4 hours</small>
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <input type="checkbox" value="">
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="label label-warning"><i class="fa fa-clock-o"></i> 1 day</small>
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <input type="checkbox" value="">
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="label label-success"><i class="fa fa-clock-o"></i> 3 days</small>
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <input type="checkbox" value="">
-                                <span class="text">Check your messages and notifications</span>
-                                <small class="label label-primary"><i class="fa fa-clock-o"></i> 1 week</small>
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                            <li>
-                      <span class="handle">
-                        <i class="fa fa-ellipsis-v"></i>
-                        <i class="fa fa-ellipsis-v"></i>
-                      </span>
-                                <input type="checkbox" value="">
-                                <span class="text">Let theme shine like a star</span>
-                                <small class="label label-default"><i class="fa fa-clock-o"></i> 1 month</small>
-                                <div class="tools">
-                                    <i class="fa fa-edit"></i>
-                                    <i class="fa fa-trash-o"></i>
-                                </div>
-                            </li>
-                        </ul>
                     </div>
                     <!-- /.box-body -->
-                    <div class="box-footer clearfix no-border">
-                        <button type="button" class="btn btn-default pull-right"><i class="fa fa-plus"></i> Add item</button>
-                    </div>
                 </div>
                 <!-- /.box -->
 
-                <!-- quick email widget -->
-                <div class="box box-info">
-                    <div class="box-header">
-                        <i class="fa fa-envelope"></i>
-
-                        <h3 class="box-title">Quick Email</h3>
-                        <!-- tools box -->
-                        <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-info btn-sm" data-widget="remove" data-toggle="tooltip"
-                                    title="Remove">
-                                <i class="fa fa-times"></i></button>
-                        </div>
-                        <!-- /. tools -->
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Nghiên cứu nghiệm thu đúng hạn</h3>
                     </div>
                     <div class="box-body">
-                        <form action="#" method="post">
-                            <div class="form-group">
-                                <input type="email" class="form-control" name="emailto" placeholder="Email to:">
+                        <div class="chart">
+                            <canvas id="lineChart" style="height:250px"></canvas>
+                            <div class="d-flex" style="justify-content: flex-end">
+                                <div style="background-color: rgba(210, 214, 222, 1); width: 20px; height: 20px;" class="margin-r-5"></div>
+                                <div class="margin-r-5">Tất cả nghiên cứu</div>
+                                <div style="background-color: rgba(60,141,188,0.9); width: 20px; height: 20px;" class="margin-r-5"></div>
+                                <div >Nghiên cứu nghiệm thu đúng hạn</div>
                             </div>
-                            <div class="form-group">
-                                <input type="text" class="form-control" name="subject" placeholder="Subject">
-                            </div>
-                            <div>
-                  <textarea class="textarea" placeholder="Message"
-                            style="width: 100%; height: 125px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box box-danger">
+                    <div class="box-header">
+                        <h3 class="box-title">Giời gian giáo viên nghiên cứu</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="GET">
+                            <div class="d-flex">
+                                <!--                                <div class="form-group">-->
+                                <!--                                    <label>Thời gian bắt đầu</label>-->
+                                <!--                                    <input type="text" class="form-control datepicker" placeholder="Thời gian bắt đầu">-->
+                                <!--                                </div>-->
+                                <!--                                <div class="form-group">-->
+                                <!--                                    <label>Thời gian kết thúc</label>-->
+                                <!--                                    <input type="text" class="form-control datepicker" placeholder="Thời gian kết thúc">-->
+                                <!--                                </div>-->
+                                <div class="form-group d-flex margin-r-5 align-items-center">
+                                    <label class="ws-nowrap margin-r-5">Đơn vị</label>
+                                    <select name="donvi" class="form-control">
+                                        <option value="all">Tất cả</option>
+                                        <?php
+                                        foreach ($donvi as $index => $item) {
+                                            echo '<option value="'.$index.'">'.$item.'</option>';
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class=" form-control btn btn-primary">Thống kê</button>
+                                </div>
                             </div>
                         </form>
-                    </div>
-                    <div class="box-footer clearfix">
-                        <button type="button" class="pull-right btn btn-default" id="sendEmail">Send
-                            <i class="fa fa-arrow-circle-right"></i></button>
-                    </div>
-                </div>
 
-            </section>
-            <!-- /.Left col -->
-            <!-- right col (We are only adding the ID to make the widgets sortable)-->
-            <section class="col-lg-5 connectedSortable">
+                        <?php if ($num > 0) { ?>
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Tên</th>
+                                    <th>Chức danh</th>
+                                    <th>Đơn vị</th>
+                                    <th>Thời gian NC</th>
+                                    <th>Tùy chọn</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                    // thay cho việc truy xuất dữ liệu bằng cách $row[‘name’], thì chỉ cần gọi $name
+                                    // bằng cách sử dụng hàm extract($row)
+                                    extract($row);
+                                    ?>
+                                    <tr>
+                                        <td class=""><?php echo $ten?></td>
+                                        <td><?php echo $chucdanh[$chuc_vu_id] ?></td>
+                                        <td><?php echo $donvi[$don_vi_id] ?></td>
+                                        <td>
+                                            <?php
+                                            $percent = $tong_thoi_gian/$chucdanh_thoigian[$chuc_vu_id];
 
-                <!-- Map box -->
-                <div class="box box-solid bg-light-blue-gradient">
-                    <div class="box-header">
-                        <!-- tools box -->
-                        <div class="pull-right box-tools">
-                            <button type="button" class="btn btn-primary btn-sm daterange pull-right" data-toggle="tooltip"
-                                    title="Date range">
-                                <i class="fa fa-calendar"></i></button>
-                            <button type="button" class="btn btn-primary btn-sm pull-right" data-widget="collapse"
-                                    data-toggle="tooltip" title="Collapse" style="margin-right: 5px;">
-                                <i class="fa fa-minus"></i></button>
-                        </div>
-                        <!-- /. tools -->
-
-                        <i class="fa fa-map-marker"></i>
-
-                        <h3 class="box-title">
-                            Visitors
-                        </h3>
-                    </div>
-                    <div class="box-body">
-                        <div id="world-map" style="height: 250px; width: 100%;"></div>
-                    </div>
-                    <!-- /.box-body-->
-                    <div class="box-footer no-border">
-                        <div class="row">
-                            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                                <div id="sparkline-1"></div>
-                                <div class="knob-label">Visitors</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                                <div id="sparkline-2"></div>
-                                <div class="knob-label">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-xs-4 text-center">
-                                <div id="sparkline-3"></div>
-                                <div class="knob-label">Exists</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                </div>
-                <!-- /.box -->
-
-                <!-- solid sales graph -->
-                <div class="box box-solid bg-teal-gradient">
-                    <div class="box-header">
-                        <i class="fa fa-th"></i>
-
-                        <h3 class="box-title">Sales Graph</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn bg-teal btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn bg-teal btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="box-body border-radius-none">
-                        <div class="chart" id="line-chart" style="height: 250px;"></div>
+                                            if ($percent>=1) {
+                                                echo '<span class="btn-sm bg-green">'.$tong_thoi_gian.'/'.$chucdanh_thoigian[$chuc_vu_id].'</span>';
+                                            } else {
+                                                echo '<span class="btn-sm bg-orange">'.$tong_thoi_gian.'/'.$chucdanh_thoigian[$chuc_vu_id].'</span>';
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a href="../giao_vien/xem.php<?php echo '?id='.$id ?>" class="btn btn-success">Xem</a>
+                                        </td>
+                                    </tr>
+                                <?php }?>
+                            </table>
+                            <?php
+                        } else {
+                            echo "<div class='alert alert-danger'>Không tìm thấy giáo viên nào.</div>";
+                        }
+                        ?>
                     </div>
                     <!-- /.box-body -->
-                    <div class="box-footer no-border">
-                        <div class="row">
-                            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                                <input type="text" class="knob" data-readonly="true" value="20" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="knob-label">Mail-Orders</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
-                                <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="knob-label">Online</div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-xs-4 text-center">
-                                <input type="text" class="knob" data-readonly="true" value="30" data-width="60" data-height="60"
-                                       data-fgColor="#39CCCC">
-
-                                <div class="knob-label">In-Store</div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                    <!-- /.box-footer -->
                 </div>
                 <!-- /.box -->
-
-                <!-- Calendar -->
-                <div class="box box-solid bg-green-gradient">
-                    <div class="box-header">
-                        <i class="fa fa-calendar"></i>
-
-                        <h3 class="box-title">Calendar</h3>
-                        <!-- tools box -->
-                        <div class="pull-right box-tools">
-                            <!-- button with a dropdown -->
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-bars"></i></button>
-                                <ul class="dropdown-menu pull-right" role="menu">
-                                    <li><a href="#">Add new event</a></li>
-                                    <li><a href="#">Clear events</a></li>
-                                    <li class="divider"></li>
-                                    <li><a href="#">View calendar</a></li>
-                                </ul>
-                            </div>
-                            <button type="button" class="btn btn-success btn-sm" data-widget="collapse"><i class="fa fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-success btn-sm" data-widget="remove"><i class="fa fa-times"></i>
-                            </button>
-                        </div>
-                        <!-- /. tools -->
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body no-padding">
-                        <!--The calendar -->
-                        <div id="calendar" style="width: 100%"></div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer text-black">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <!-- Progress bars -->
-                                <div class="clearfix">
-                                    <span class="pull-left">Task #1</span>
-                                    <small class="pull-right">90%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 90%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Task #2</span>
-                                    <small class="pull-right">70%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 70%;"></div>
-                                </div>
-                            </div>
-                            <!-- /.col -->
-                            <div class="col-sm-6">
-                                <div class="clearfix">
-                                    <span class="pull-left">Task #3</span>
-                                    <small class="pull-right">60%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 60%;"></div>
-                                </div>
-
-                                <div class="clearfix">
-                                    <span class="pull-left">Task #4</span>
-                                    <small class="pull-right">40%</small>
-                                </div>
-                                <div class="progress xs">
-                                    <div class="progress-bar progress-bar-green" style="width: 40%;"></div>
-                                </div>
-                            </div>
-                            <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
-                    </div>
-                </div>
-                <!-- /.box -->
-
-            </section>
-            <!-- right col -->
+            </div>
+            <!-- /.col -->
         </div>
-        <!-- /.row (main row) -->
-
+        <!-- /.row -->
     </section>
     <!-- /.content -->
 </div>
 
+
 <?php include_once('../widgets/footer.php') ?>
+<script>
+    $(function () {
+        /* ChartJS
+         * -------
+         * Here we will create a few charts using ChartJS
+         */
+
+        //--------------
+        //- AREA CHART -
+        //--------------
+
+        // Get context with jQuery - using jQuery's .get() method.
+        var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+        // This will get the first returned node in the jQuery collection.
+        var areaChart       = new Chart(areaChartCanvas)
+        var year = <?php echo json_encode(array_keys($allGiaoVien))?>;
+        var areaChartData = {
+            labels  : year,
+            datasets: [
+                {
+                    fillColor           : 'rgba(210, 214, 222, 1)',
+                    strokeColor         : 'rgba(210, 214, 222, 1)',
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : <?php echo json_encode(($allGiaoVien))?>
+                },
+                {
+                    fillColor           : 'rgba(60,141,188,0.9)',
+                    strokeColor         : 'rgba(60,141,188,0.8)',
+                    pointColor          : '#3b8bba',
+                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : <?php echo json_encode($giaoVienDonVi)?>
+                }
+            ]
+        }
+
+        var areaChartOptions = {
+            //Boolean - If we should show the scale at all
+            showScale               : true,
+            //Boolean - Whether grid lines are shown across the chart
+            scaleShowGridLines      : false,
+            //String - Colour of the grid lines
+            scaleGridLineColor      : 'rgba(0,0,0,.05)',
+            //Number - Width of the grid lines
+            scaleGridLineWidth      : 1,
+            //Boolean - Whether to show horizontal lines (except X axis)
+            scaleShowHorizontalLines: true,
+            //Boolean - Whether to show vertical lines (except Y axis)
+            scaleShowVerticalLines  : true,
+            //Boolean - Whether the line is curved between points
+            bezierCurve             : true,
+            //Number - Tension of the bezier curve between points
+            bezierCurveTension      : 0.3,
+            //Boolean - Whether to show a dot for each point
+            pointDot                : false,
+            //Number - Radius of each point dot in pixels
+            pointDotRadius          : 4,
+            //Number - Pixel width of point dot stroke
+            pointDotStrokeWidth     : 1,
+            //Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+            pointHitDetectionRadius : 20,
+            //Boolean - Whether to show a stroke for datasets
+            datasetStroke           : true,
+            //Number - Pixel width of dataset stroke
+            datasetStrokeWidth      : 2,
+            //Boolean - Whether to fill the dataset with a color
+            datasetFill             : true,
+            //String - A legend template
+            legendTemplate          : '<ul class="<%=name.toLowerCase()%>-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].lineColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>',
+            //Boolean - whether to maintain the starting aspect ratio or not when responsive, if set to false, will take up entire container
+            maintainAspectRatio     : true,
+            //Boolean - whether to make the chart responsive to window resizing
+            responsive              : true
+        }
+
+
+        var lineChartData = {
+            labels  : year,
+            datasets: [
+                {
+                    fillColor           : 'rgba(210, 214, 222, 1)',
+                    strokeColor         : 'rgba(210, 214, 222, 1)',
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : <?php echo json_encode($allNghienCuu)?>
+                },
+                {
+                    fillColor           : 'rgba(60,141,188,0.9)',
+                    strokeColor         : 'rgba(60,141,188,0.8)',
+                    pointColor          : '#3b8bba',
+                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : <?php echo json_encode($nghienCuuDungHan)?>
+                }
+            ]
+        }
+
+        //Create the line chart
+        areaChart.Line(areaChartData, areaChartOptions)
+
+        //-------------
+        //- LINE CHART -
+        //--------------
+        var lineChartCanvas          = $('#lineChart').get(0).getContext('2d')
+        var lineChart                = new Chart(lineChartCanvas)
+        var lineChartOptions         = areaChartOptions
+        lineChartOptions.datasetFill = false
+        lineChart.Line(lineChartData, lineChartOptions)
+    })
+</script>

@@ -16,8 +16,8 @@
     <title>
         <?php
         $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $folder =  $uriSegments[3];
-        $file = $uriSegments[4];
+        $folder =  $uriSegments[2];
+        $file = $uriSegments[3];
         switch ($folder) {
             case 'dashboard':
                 echo 'Thống kê';
@@ -32,6 +32,9 @@
                         break;
                     case 'sua.php':
                         echo 'Chỉnh sửa giáo viên';
+                        break;
+                    case 'xem.php':
+                        echo 'Chi tiết giáo viên';
                         break;
                     case 'don_vi.php':
                         echo 'Đơn vị công tác';
@@ -72,6 +75,9 @@
                     case 'sua.php':
                         echo 'Chỉnh sửa nghiên cứu';
                         break;
+                    case 'xem.php':
+                        echo 'Chỉnh sửa nghiên cứu';
+                        break;
                 }
                 break;
             default:
@@ -99,11 +105,10 @@
     if (isset($folder) && isset($file)) {
         switch ($folder) {
             case 'dashboard':
-//                echo '<link rel="stylesheet" href="../../bower_components/morris.js/morris.css">';
+                echo '<link rel="stylesheet" href="../../bower_components/morris.js/morris.css">';
 //                echo '<link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">';
 //                echo '<link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">';
                 echo '<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">';
-
                 echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                 break;
             case 'giao_vien':
@@ -255,16 +260,10 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header"></li>
-                <li class="<?php if ($folder == 'dashboard') echo 'active';?> treeview" >
-                    <a href="#">
+                <li class="<?php if ($folder == 'dashboard') echo 'active';?>" >
+                    <a href="../dashboard/index.php">
                         <i class="fas fa-tachometer-alt"></i> <span>Thống kê</span>
-                        <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i>
-                        </span>
                     </a>
-                    <ul class="treeview-menu">
-                        <li class="<?php if ($file == 'giao_vien.php') echo 'active';?>"><a href="../dashboard/giao_vien.php"><i class="far fa-circle"></i>Giáo viên</a></li>
-                    </ul>
                 </li>
                 <li class="<?php if ($folder == 'giao_vien') echo 'active';?> treeview">
                     <a href="#">

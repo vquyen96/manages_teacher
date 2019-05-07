@@ -8,4 +8,10 @@ $(document).ready(function () {
         ],
         order: []
     });
+
+    $('.yearpicker').datepicker({
+        format: "yyyy",
+        viewMode: "years",
+        minViewMode: "years"
+    });
 });
