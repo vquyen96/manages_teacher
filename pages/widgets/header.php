@@ -99,11 +99,12 @@
     if (isset($folder) && isset($file)) {
         switch ($folder) {
             case 'dashboard':
-                echo '<link rel="stylesheet" href="../../bower_components/morris.js/morris.css">';
-                echo '<link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">';
+//                echo '<link rel="stylesheet" href="../../bower_components/morris.js/morris.css">';
+//                echo '<link rel="stylesheet" href="../../bower_components/jvectormap/jquery-jvectormap.css">';
+//                echo '<link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">';
                 echo '<link rel="stylesheet" href="../../bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">';
-                echo '<link rel="stylesheet" href="../../bower_components/bootstrap-daterangepicker/daterangepicker.css">';
-                echo '<link rel="stylesheet" href="../../plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">';
+
+                echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                 break;
             case 'giao_vien':
                 switch ($file) {
@@ -117,10 +118,8 @@
                         echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         break;
                     case 'them.php':
-                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         break;
                     case 'sua.php':
-                        echo '<link rel="stylesheet" href="../../bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">';
                         break;
                     default:
                         break;

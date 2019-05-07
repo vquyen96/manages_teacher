@@ -61,8 +61,11 @@
             echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
 //          FastClick
             echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
+            echo '<script src="../../bower_components/datatables.net/js/jquery.dataTables.min.js"></script>';
+
 
             echo '<script src="../../dist/js/pages/dashboard.js"></script>';
+            echo '<script src="../../dist/js/pages/thong_ke/script.js"></script>';
             break;
         case 'giao_vien':
             switch ($file) {
