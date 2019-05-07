@@ -16,8 +16,8 @@
     <title>
         <?php
         $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $folder =  $uriSegments[2];
-        $file = $uriSegments[3];
+        $folder =  $uriSegments[3];
+        $file = $uriSegments[4];
         switch ($folder) {
             case 'dashboard':
                 echo 'Thống kê';
@@ -85,6 +85,8 @@
         }
         ?>
     </title>
+    <link rel="shortcut icon" href="../../dist/img/logo.png" />
+
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -260,10 +262,17 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header"></li>
-                <li class="<?php if ($folder == 'dashboard') echo 'active';?>" >
+                <li class="<?php if ($folder == 'dashboard') echo 'active';?> treeview" >
                     <a href="../dashboard/index.php">
                         <i class="fas fa-tachometer-alt"></i> <span>Thống kê</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
                     </a>
+                    <ul class="treeview-menu">
+                        <li class="<?php if ($file == 'index.php') echo 'active';?>"><a href="../dashboard/index.php"><i class="far fa-circle"></i>Theo năm</a></li>
+                        <li class="<?php if ($file == 'giao_vien.php') echo 'active';?>"><a href="../dashboard/giao_vien.php"><i class="far fa-circle"></i>Giáo viên</a></li>
+                    </ul>
                 </li>
                 <li class="<?php if ($folder == 'giao_vien') echo 'active';?> treeview">
                     <a href="#">

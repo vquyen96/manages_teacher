@@ -97,7 +97,7 @@ while ($rowDanhMuc = $stmtDanhMuc->fetch(PDO::FETCH_ASSOC)){
 //                            include_once "../../paging.php";
 
                         } else {
-                            echo "<div class='alert alert-danger'>Không tìm thấy giáo viên nào.</div>";
+                            echo "<div class='alert alert-danger'>Không tìm thấy nghiên cứu nào.</div>";
                         }
                         ?>
                     </div>

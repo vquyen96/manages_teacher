@@ -6,6 +6,7 @@
   <title>Đăng nhập</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="shortcut icon" href="../dist/img/logo.png" />
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="../bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -38,12 +39,13 @@
 <body class="hold-transition login-page">
 <div class="login-box">
   <div class="login-logo">
-    <a href="../index2.html"><b>Quản lý</b> nckh</a>
+    <a href="../index.php"><b>Quản lý</b> nckh</a>
+      <img src="../dist/img/logo.png" alt="" style="width: 50px">
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Đăng nhập</p>
-
+        
     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
       <div class="form-group has-feedback">
         <input type="text" class="form-control" placeholder="Tên đăng nhập" name="ten_dang_nhap">

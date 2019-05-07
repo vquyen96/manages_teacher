@@ -39,11 +39,11 @@ $dir = basename(__DIR__) ;
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-xs-6">
-                                    <div class="thumbnail">
-                                        <img src="../../dist/img/photo3.jpg" alt="">
-                                    </div>
-                                </div>
+<!--                                <div class="col-xs-6">-->
+<!--                                    <div class="thumbnail">-->
+<!--                                        <img src="../../dist/img/photo3.jpg" alt="">-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <div class="col-xs-6">
                                     <div class="">
                                         <div class="form-group">
