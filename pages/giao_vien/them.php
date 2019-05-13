@@ -35,7 +35,7 @@
                     <div class="box-header">
                         <h3 class="box-title">Thêm mới giáo viên</h3>
                     </div>
-                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data" id="form-giao-vien">
                     <!-- /.box-header -->
                     <div class="box-body">
                         <div class="row">
@@ -55,7 +55,7 @@
                                     <div class="form-group">
                                         <label class="col-sm-4 control-label ws-nowrap">Mật khẩu</label>
                                         <div class="col-sm-8">
-                                            <input type="password" name="mat_khau" class="form-control" placeholder="Mật khẩu">
+                                            <input type="password" name="mat_khau" class="form-control" placeholder="Mật khẩu" id="mat_khau">
                                         </div>
                                     </div>
                                     <div class="form-group">

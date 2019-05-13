@@ -71,7 +71,7 @@ $don_vi_stmt->execute();
                     <div class="box-header">
                         <h3 class="box-title">Chỉnh sửa giáo viên</h3>
                     </div>
-                    <form class="form-horizontal"action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}");?>" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal"action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"] . "?id={$id}");?>" method="post" enctype="multipart/form-data" id="form-giao-vien">
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">
@@ -376,7 +376,7 @@ if($_POST){
         }
 
         $con->commit();
-        echo '<script type="text/javascript">location.href = "sua.php?id='.$id.'";</script>';
+        echo '<script type="text/javascript">location.href = "xem.php?id='.$id.'";</script>';
     }// hiển thị lỗi
     catch(PDOException $exception){
         $con->rollBack();

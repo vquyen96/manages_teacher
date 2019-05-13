@@ -6,6 +6,8 @@
     include '../../libs/session.php';
     include '../../libs/helper.php';
     include '../../libs/checkLogin.php';
+    include '../../libs/middleware.php';
+
 ?>
 
 <html>
@@ -15,9 +17,7 @@
     <meta http-equiv="Location" content="http://localhost/manages_teacher/">
     <title>
         <?php
-        $uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
-        $folder =  $uriSegments[3];
-        $file = $uriSegments[4];
+
         switch ($folder) {
             case 'dashboard':
                 echo 'Thống kê';
@@ -284,11 +284,14 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="<?php if ($file == 'danhsach.php') echo 'active';?>"><a href="../giao_vien/danhsach.php"><i class="far fa-circle"></i>Danh sách</a></li>
+                        <?php if ($auth['phan_quyen'] == 1) { ?>
                         <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../giao_vien/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
                         <li class="<?php if ($file == 'chuc_danh.php') echo 'active';?>"><a href="../giao_vien/chuc_danh.php"><i class="far fa-circle"></i>Chức danh</a></li>
                         <li class="<?php if ($file == 'don_vi.php') echo 'active';?>"><a href="../giao_vien/don_vi.php"><i class="far fa-circle"></i>Đơn vị</a></li>
+                        <?php }?>
                     </ul>
                 </li>
+                <?php if ($auth['phan_quyen'] == 1) {?>
                 <li class="<?php if ($folder == 'student') echo 'active';?> treeview">
                     <a href="#">
                         <i class="fas fa-users"></i>
@@ -308,6 +311,7 @@
                         <span>Danh mục nghiên cứu</span>
                     </a>
                 </li>
+                <?php }?>
                 <li class="<?php if ($folder == 'nghien_cuu') echo 'active';?> treeview">
                     <a href="#">
                         <i class="fas fa-microscope"></i>
@@ -318,35 +322,11 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="<?php if ($file == 'danhsach.php') echo 'active';?>"><a href="../nghien_cuu/danhsach.php"><i class="far fa-circle"></i>Danh sách</a></li>
-                        <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../nghien_cuu/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
+                        <?php if ($auth['phan_quyen'] == 1) { ?>
+                            <li class="<?php if ($file == 'them.php') echo 'active';?>"><a href="../nghien_cuu/them.php"><i class="far fa-circle"></i>Thêm mới</a></li>
+                        <?php }?>
                     </ul>
                 </li>
-<!--                <li class="treeview">-->
-<!--                    <a href="../../#">-->
-<!--                        <i class="fas fa-file-alt"></i>-->
-<!--                        <span>Giáo trình</span>-->
-<!--                        <span class="pull-right-container">-->
-<!--                          <i class="fa fa-angle-left pull-right"></i>-->
-<!--                        </span>-->
-<!--                    </a>-->
-<!--                    <ul class="treeview-menu">-->
-<!--                        <li><a href="../../pages/document/index.php"><i class="far fa-circle"></i>Danh sách</a></li>-->
-<!--                        <li><a href="../../pages/document/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
-<!--                <li class="treeview">-->
-<!--                    <a href="../../#">-->
-<!--                        <i class="far fa-address-card"></i>-->
-<!--                        <span>Bài báo</span>-->
-<!--                        <span class="pull-right-container">-->
-<!--                          <i class="fa fa-angle-left pull-right"></i>-->
-<!--                        </span>-->
-<!--                    </a>-->
-<!--                    <ul class="treeview-menu">-->
-<!--                        <li><a href="../../pages/post/index.php"><i class="far fa-circle"></i>Danh sách</a></li>-->
-<!--                        <li><a href="../../pages/post/create.php"><i class="far fa-circle"></i>Thêm mới</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
             </ul>
         </section>
         <!-- /.sidebar -->

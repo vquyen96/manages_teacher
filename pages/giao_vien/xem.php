@@ -106,10 +106,16 @@ catch(PDOException $exception){
                             <li class="list-group-item">
                                 <b>Đơn vị</b> <a class="pull-right"><?php echo $donvi[$giao_vien['don_vi_id']]?></a>
                             </li>
+                            <li class="list-group-item">
+                                <b>Cấp bậc</b> <a class="pull-right"><?php if ($giao_vien['cap_bac'] != null && $giao_vien['cap_bac'] != 0) echo $ranks[$giao_vien['cap_bac']]; else echo "Chưa có"?></a>
+                            </li>
 
                         </ul>
+                        <?php if ($auth['phan_quyen'] == 1) { ?>
+                            <a href="sua.php?id=<?php echo $id?>" class="btn btn-primary btn-block"><b>Chỉnh sửa</b></a>
+                        <?php }?>
 
-                        <a href="sua.php?id=<?php echo $id?>" class="btn btn-primary btn-block"><b>Chỉnh sửa</b></a>
+
                     </div>
                     <!-- /.box-body -->
                 </div>
@@ -150,7 +156,10 @@ catch(PDOException $exception){
                         <!-- /.box-body -->
                         <div class="box-footer">
                             <a href="danhsach.php" class="btn btn-default">Cancel</a>
-                            <a href="sua.php?id=<?php echo $id?>" class="btn btn-primary pull-right">Chỉnh sửa</a>
+                            <?php if ($auth['phan_quyen'] == 1) { ?>
+                                <a href="sua.php?id=<?php echo $id?>" class="btn btn-primary pull-right">Chỉnh sửa</a>
+                            <?php }?>
+
                         </div>
 
                     <!-- /.box-body -->

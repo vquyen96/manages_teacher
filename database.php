@@ -14,6 +14,10 @@ catch(PDOException $exception){
     echo "Connection error: " . $exception->getMessage();
 }
 
+$uriSegments = explode("/", parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$folder =  $uriSegments[3];
+isset($uriSegments[4]) ? $file = $uriSegments[4] : $file = "error";
+
 $genders = [
     0 => 'Nữ',
     1 => 'Nam',
@@ -35,4 +39,5 @@ $ranks = [
     7 => 'Thượng tá',
     8 => 'Đại tá'
 ];
+
 ?>

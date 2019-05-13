@@ -195,7 +195,10 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                     <!-- /.box-body -->
                     <div class="box-footer">
                         <a href="danhsach.php" class="btn btn-default">Quay lại</a>
-                        <a href="sua.php?id=<?php echo $id ?>" class="btn btn-info pull-right">Chỉnh sửa</a>
+                        <?php if ($auth['phan_quyen'] == 1) { ?>
+                            <a href="sua.php?id=<?php echo $id ?>" class="btn btn-info pull-right">Chỉnh sửa</a>
+                        <?php }?>
+
                     </div>
                 </div>
                 <!-- /.box -->

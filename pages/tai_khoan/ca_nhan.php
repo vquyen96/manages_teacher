@@ -53,7 +53,7 @@ $dir = basename(__DIR__) ;
             <!-- /.col -->
             <div class="col-md-9">
                 <div class="box box-danger">
-                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data">
+                    <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post" enctype="multipart/form-data" id="form-tai-khoan">
                         <!-- /.box-header -->
                         <div class="box-body">
                             <div class="row">

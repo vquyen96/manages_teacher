@@ -72,8 +72,10 @@ while ($rowDanhMuc = $stmtDanhMuc->fetch(PDO::FETCH_ASSOC)){
                                         <td><?php echo $danhMuc[$danh_muc_id] ?></td>
                                         <td>
                                             <a href="xem.php<?php echo '?id='.$id ?>" class="btn btn-success">Xem</a>
-                                            <a href="sua.php<?php echo '?id='.$id ?>" class="btn btn-primary">Sửa</a>
-                                            <a href="xoa.php<?php echo '?id='.$id ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
+                                            <?php if ($auth['phan_quyen'] == 1) { ?>
+                                                <a href="sua.php<?php echo '?id='.$id ?>" class="btn btn-primary">Sửa</a>
+                                                <a href="xoa.php<?php echo '?id='.$id ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>
+                                            <?php }?>
                                         </td>
                                     </tr>
                                 <?php }?>

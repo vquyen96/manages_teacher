@@ -76,10 +76,15 @@
 //                    echo '<script src="../../bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>';
 //                    echo '<script src="../../bower_components/fastclick/lib/fastclick.js"></script>';
                     echo '<script src="../../dist/js/pages/giao_vien/index.js"></script>';
+
                     break;
                 case 'them.php':
+                    echo '<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.js"></script>';
+                    echo '<script src="../../dist/js/pages/giao_vien/form.js"></script>';
                     break;
                 case 'sua.php':
+                    echo '<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.js"></script>';
+                    echo '<script src="../../dist/js/pages/giao_vien/form.js"></script>';
                     break;
 
             }
@@ -122,6 +127,9 @@
                     break;
 
             }
+            break;
+        case 'tai_khoan':
+            echo '<script src="../../dist/js/pages/tai_khoan/ca_nhan.js"></script>';
             break;
 
     }
