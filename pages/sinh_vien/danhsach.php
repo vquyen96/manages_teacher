@@ -65,7 +65,7 @@ $num = $stmt->rowCount();
                                     <th>Tên</th>
                                     <th>Email</th>
                                     <th>Mã SV</th>
-                                    <th>Thời gian NC</th>
+<!--                                    <th>Thời gian NC</th>-->
                                     <th>Tùy chọn</th>
                                 </tr>
                                 </thead>
@@ -79,7 +79,7 @@ $num = $stmt->rowCount();
                                         <td><?php echo $row['ten']?></td>
                                         <td><?php echo $row['email']?></td>
                                         <td><?php echo $row['ma_sv'] ?></td>
-                                        <td><?php echo $row['tong_thoi_gian'] ?></td>
+<!--                                        <td>--><?php //echo $row['tong_thoi_gian'] ?><!--</td>-->
                                         <td>
                                             <a href="sua.php<?php echo '?id='.$row['id'] ?>" class="btn btn-primary">Sửa</a>
                                             <a href="xoa.php<?php echo '?id='.$row['id'] ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn XÓA')">Xóa</a>

@@ -2,7 +2,7 @@
 include_once('../widgets/header.php') ;
 include_once('../../libs/paginate.php') ;
 // lấy dữ liệu cho trang hiện tại
-$query = "SELECT * FROM chuc_danh ORDER BY id DESC
+$query = "SELECT * FROM chuc_danh WHERE trang_thai = 1 ORDER BY id DESC
             LIMIT :from_record_num, :records_per_page";
 $stmt = $con->prepare($query);
 $stmt->bindParam(":from_record_num", $from_record_num, PDO::PARAM_INT);

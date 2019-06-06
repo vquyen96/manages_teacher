@@ -11,6 +11,11 @@ $stmt_nghien_cuu->bindParam(1, $id);
 $stmt_nghien_cuu->execute();
 $nghien_cuu = $stmt_nghien_cuu->fetch(PDO::FETCH_ASSOC);
 
+// KIểm tra không tồn tại bản ghi nào thì chuyển trang
+if ($nghien_cuu == null) {
+    echo '<script type="text/javascript">location.href = "danhsach.php";</script>';
+}
+
 // Lấy danh sách giáo nghiên cứu
 $query_giao_vien_nghien_cuu = "SELECT * FROM giao_vien_nghien_cuu WHERE nghien_cuu_id = ?";
 $stmt_giao_vien_nghien_cuu = $con->prepare( $query_giao_vien_nghien_cuu );
@@ -165,6 +170,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                             <input type="text" name="giao_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu" value="<?php echo $gvnc['thoi_gian'] ?>">
                                             <input type="text" name="giao_vien_vai_tro[]" class=" form-control" placeholder="Vai trò" value="<?php echo $gvnc['vai_tro'] ?>">
                                             <input type="text" name="gvnc_id[]" class=" form-control d-none" value="<?php echo $gvnc['id'] ?>">
+                                            <a href="xoagiaovien.php?id=<?php echo $gvnc['id'] ?>" class="btn btn-danger"  onclick="return confirm('Bạn chắc chắn muốn xóa giáo viên này')">Xoá</a>
                                         </div>
                                         <?php }?>
                                         <div class="mb-3 d-flex">
@@ -204,9 +210,10 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
                                                 </select>
                                             </div>
-                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu"  value="<?php echo $svnc['thoi_gian'] ?>">
+<!--                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu"  value="--><?php //echo $svnc['thoi_gian'] ?><!--">-->
                                             <input type="text" name="sinh_vien_vai_tro[]" class=" form-control" placeholder="Vai trò" value="<?php echo $svnc['vai_tro'] ?>">
                                             <input type="text" name="svnc_id[]" class=" form-control d-none" value="<?php echo $svnc['id'] ?>">
+                                            <a href="xoasinhvien.php?id=<?php echo $svnc['id'] ?>" class="btn btn-danger" onclick="return confirm('Bạn chắc chắn muốn xóa sinh viên này')">Xoá</a>
                                         </div>
                                         <?php }?>
                                         <div class="mb-3 d-flex" >
@@ -220,7 +227,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
                                                 </select>
                                             </div>
-                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu">
+<!--                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu">-->
                                             <input type="text" name="sinh_vien_vai_tro[]" class=" form-control" placeholder="Vai trò">
 
                                         </div>

@@ -1,12 +1,12 @@
 <?php
     include_once('../widgets/header.php');
     // Lấy danh sách chức danh
-    $chuc_danh_query = "SELECT * FROM chuc_danh ORDER BY id DESC";
+    $chuc_danh_query = "SELECT * FROM chuc_danh WHERE trang_thai = 1 ORDER BY id DESC";
     $chuc_danh_stmt = $con->prepare($chuc_danh_query);
     $chuc_danh_stmt->execute();
 
     // Lấy danh sách đơn vị công tác
-    $don_vi_query = "SELECT * FROM don_vi_cong_tac ORDER BY id DESC";
+    $don_vi_query = "SELECT * FROM don_vi_cong_tac WHERE trang_thai = 1 ORDER BY id DESC";
     $don_vi_stmt = $con->prepare($don_vi_query);
     $don_vi_stmt->execute();
 
@@ -190,7 +190,7 @@ if($_POST){
         $ngay_tao = time();
 
         if ($ten_dang_nhap != null) {
-            if (!isValidUsername($ten_dang_nhap, null, $con)) {
+            if (isValidUsername($ten_dang_nhap, null, $con)) {
                 throw new PDOException("Tên đăng nhập đá tòn tại");
             }
             $query_tai_khoan = "INSERT INTO tai_khoan SET 

@@ -140,7 +140,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                                     ?>
                                                 </select>
                                             </div>
-                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu">
+<!--                                            <input type="text" name="sinh_vien_thoi_gian[]" class=" form-control" placeholder="Thời gian nghiên cứu">-->
                                             <input type="text" name="sinh_vien_vai_tro[]" class=" form-control" placeholder="Vai trò">
                                         </div>
                                         <button type="button" class="btn btn-sm btn-primary pull-right" id="btn-add-svnc">

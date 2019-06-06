@@ -192,15 +192,15 @@ function getNghienCuuDungHan($timeStart, $timeEnd, $con){
 //    $chucdanh[$rowChucDanh['id']] = $rowChucDanh['ten'];
 //    $chucdanh_thoigian[$rowChucDanh['id']] = $rowChucDanh['thoi_gian_dinh_muc'];
 //}
-//
-//// Lấy map đơn vị
-//$queryDonVi = "SELECT * FROM don_vi_cong_tac ";
-//$stmtDonVi = $con->prepare($queryDonVi);
-//$stmtDonVi->execute();
-//$donvi = [];
-//while ($rowDonVi = $stmtDonVi->fetch(PDO::FETCH_ASSOC)){
-//    $donvi[$rowDonVi['id']] = $rowDonVi['ten'];
-//}
+
+// Lấy map đơn vị
+$queryDonVi = "SELECT * FROM don_vi_cong_tac ";
+$stmtDonVi = $con->prepare($queryDonVi);
+$stmtDonVi->execute();
+$donvi = [];
+while ($rowDonVi = $stmtDonVi->fetch(PDO::FETCH_ASSOC)){
+    $donvi[$rowDonVi['id']] = $rowDonVi['ten'];
+}
 
 
 // Lấy map danh mục
@@ -246,8 +246,10 @@ while ($rowDanhMuc = $stmtDanhMuc->fetch(PDO::FETCH_ASSOC)){
                                     <select name="donvi" class="form-control">
                                         <option value="all">Tất cả</option>
                                         <?php
+
                                         foreach ($donvi as $index => $item) {
-                                            echo '<option value="'.$index.'">'.$item.'</option>';
+                                            $selected = isset($_GET['donvi']) && $_GET['donvi'] == $index ? "selected" : "";
+                                            echo '<option value="'.$index.'" '.$selected.'>'.$item.'</option>';
                                         }
                                         ?>
                                     </select>

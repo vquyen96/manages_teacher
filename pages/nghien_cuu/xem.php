@@ -168,7 +168,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                         <thead class="thead-light">
                                             <tr>
                                                 <th scope="col">Sinh viên</th>
-                                                <th scope="col">Thời gian</th>
+<!--                                                <th scope="col">Thời gian</th>-->
                                                 <th scope="col">Vai trò</th>
                                             </tr>
                                         </thead>
@@ -179,7 +179,7 @@ $sinh_vien_all = $stmt_sinh_vien->fetchAll(PDO::FETCH_ASSOC);
                                                 foreach ($sinh_vien_all as $item) {
                                                     if ($svnc['sinh_vien_id'] == $item['id']) {
                                                         echo '<td>'.$item['ten'].'</td>';
-                                                        echo '<td>'.$svnc['thoi_gian'].' (giờ)</td>';
+//                                                        echo '<td>'.$svnc['thoi_gian'].' (giờ)</td>';
                                                         echo '<td>'.$svnc['vai_tro'].'</td>';
                                                     }
                                                 }
